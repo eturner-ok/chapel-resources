@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:oklch(0.17 0.025 265);color:oklch(0.94 0.012 80);font-family:Figtree,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:oklch(0.82 0.11 80);text-decoration:underline;text-underline-offset:3px}
+a:hover{color:oklch(0.9 0.08 80)}
+button{font-family:inherit}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.4);opacity:0}}
+</style>
+</helmet>
+<div style="min-height:100vh;">
+
+<nav style="position:sticky;top:0;z-index:10;background:oklch(0.17 0.025 265 / 0.92);backdrop-filter:blur(10px);border-bottom:1px solid oklch(0.3 0.03 265);">
+  <div style="max-width:1240px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+    <div style="font-family:'Instrument Serif',serif;font-size:20px;display:flex;align-items:center;gap:10px;">
+      <span style="width:10px;height:10px;background:oklch(0.6 0.18 28);display:inline-block;"></span>Inside the House
+    </div>
+    <div style="display:flex;gap:16px;font-size:13px;font-weight:500;">
+      <a href="Passover Teacher Notes v2.dc.html" style="color:oklch(0.78 0.02 80);text-decoration:none;">Teacher Notes</a>
+      <a href="Passover Going Deeper.dc.html" style="color:oklch(0.78 0.02 80);text-decoration:none;">Going Deeper</a>
+    </div>
+  </div>
+</nav>
+
+<main style="max-width:1240px;margin:0 auto;padding:48px 24px 96px;display:flex;flex-direction:column;gap:28px;">
+  <header style="display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;">
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.82 0.11 80);">The Passover · Exodus 11–12</div>
+      <h1 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(44px,6vw,76px);line-height:0.95;">Inside the House</h1>
+      <p style="margin:0;font-size:16px;color:oklch(0.76 0.02 80);">Tap the glowing points to explore the night.</p>
+    </div>
+    <div style="display:flex;gap:6px;padding:5px;border-radius:999px;border:1px solid oklch(0.32 0.03 265);">
+      <button onClick="{{ toInside }}" style="padding:10px 20px;border-radius:999px;border:none;font-size:14px;font-weight:700;cursor:pointer;background:{{ tabInBg }};color:{{ tabInColor }};transition:all .2s;">Inside</button>
+      <button onClick="{{ toDoor }}" style="padding:10px 20px;border-radius:999px;border:none;font-size:14px;font-weight:700;cursor:pointer;background:{{ tabDoorBg }};color:{{ tabDoorColor }};transition:all .2s;">At the Door</button>
+    </div>
+  </header>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:24px;align-items:start;">
+    <div style="grid-column:span 2;min-width:0;display:flex;flex-direction:column;gap:14px;">
+      <div style="position:relative;width:100%;aspect-ratio:1376/768;border-radius:4px;overflow:hidden;border:1px solid oklch(0.3 0.03 265);box-shadow:0 30px 80px oklch(0.08 0.02 265 / 0.6);">
+        <img src="{{ img }}" alt="{{ imgAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">
+        <sc-for list="{{ spots }}" as="h" hint-placeholder-count="0">
+          <button onClick="{{ h.onClick }}" title="{{ h.title }}" style="position:absolute;left:{{ h.x }};top:{{ h.y }};width:34px;height:34px;margin:-17px 0 0 -17px;padding:0;border:none;background:transparent;cursor:pointer;">
+            <span style="position:absolute;inset:0;border-radius:50%;background:oklch(0.82 0.11 80 / 0.5);animation:pulse 1.8s ease-out infinite;display:{{ h.pulse }};"></span>
+            <span style="position:absolute;inset:4px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;background:{{ h.bg }};color:{{ h.color }};border:2px solid oklch(0.95 0.02 80);box-shadow:0 2px 12px oklch(0.1 0.02 265 / 0.6);transition:all .2s;">{{ h.n }}</span>
+          </button>
+        </sc-for>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <sc-for list="{{ spots }}" as="h" hint-placeholder-count="0">
+            <button onClick="{{ h.onClick }}" style="padding:8px 12px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid {{ h.chipBorder }};background:{{ h.chipBg }};color:{{ h.chipColor }};">{{ h.title }}</button>
+          </sc-for>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.66 0.02 80);">{{ progress }}</div>
+      </div>
+    </div>
+
+    <aside style="min-width:0;padding:clamp(24px,3vw,34px);border-radius:4px;background:oklch(0.21 0.03 265);border:1px solid oklch(0.3 0.03 265);display:flex;flex-direction:column;gap:18px;min-height:320px;">
+      <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ false }}">
+        <div key="{{ activeKey }}" style="display:flex;flex-direction:column;gap:18px;animation:rise .35s ease;">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.82 0.11 80);">{{ activeRef }}</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:oklch(0.62 0.02 80);">{{ activeSource }}</span>
+          </div>
+          <h2 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(32px,3.4vw,42px);line-height:1;">{{ activeTitle }}</h2>
+          <sc-for list="{{ activeBody }}" as="b" hint-placeholder-count="1">
+            <p style="margin:0;font-size:17px;line-height:1.7;color:oklch(0.88 0.015 80);text-wrap:pretty;">{{ b }}</p>
+          </sc-for>
+          <div style="display:flex;gap:8px;margin-top:6px;">
+            <button onClick="{{ prev }}" style="width:44px;height:44px;border-radius:50%;border:1px solid oklch(0.4 0.03 265);background:transparent;color:oklch(0.94 0.012 80);font-size:16px;cursor:pointer;" style-hover="background:oklch(0.28 0.03 265)">←</button>
+            <button onClick="{{ next }}" style="flex:1;height:44px;border-radius:999px;border:none;background:oklch(0.82 0.11 80);color:oklch(0.17 0.025 265);font-size:14px;font-weight:700;cursor:pointer;" style-hover="background:oklch(0.88 0.09 80)">{{ nextLabel }}</button>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ noActive }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.82 0.11 80);">{{ introLabel }}</div>
+          <p style="margin:0;font-family:'Instrument Serif',serif;font-size:clamp(24px,2.6vw,30px);line-height:1.3;text-wrap:pretty;">{{ introText }}</p>
+          <button onClick="{{ start }}" style="align-self:start;padding:12px 20px;border-radius:999px;border:none;background:oklch(0.82 0.11 80);color:oklch(0.17 0.025 265);font-size:14px;font-weight:700;cursor:pointer;">Start exploring →</button>
+        </div>
+      </sc-if>
+    </aside>
+  </div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { room: 0, active: -1, seen: {} };
+  ROOMS = [
+    {
+      img: 'uploads/Gemini_Generated_Image_6rytnu6rytnu6ryt.jpeg',
+      alt: 'Inside an Israelite house at night: a man belted, in sandals, staff in hand, beside a table with flat bread and an oil lamp',
+      label: 'Inside',
+      intro: 'On one spring night in Egypt, families ate a hurried dinner with their sandals on and their staffs in hand.',
+      spots: [
+        { t: 'The belt', x: '61%', y: '18%', ref: 'Exodus 12:11', src: 'Teacher Notes', body: ['Israel ate this meal belted, in sandals, staff in hand (12:11), while they were still slaves. Nothing had changed yet, and they got ready anyway because God said they were leaving. That’s what faith looked like that night: obeying before seeing.'] },
+        { t: 'The sandals', x: '57%', y: '85%', ref: 'Exodus 12:11', src: 'Going Deeper', body: ['They ate “with your belt fastened, your sandals on your feet, and your staff in your hand” (12:11).'] },
+        { t: 'The staff', x: '51.5%', y: '45%', ref: 'Exodus 12:11', src: 'Going Deeper', body: ['The text doesn’t say they stood, but a staff in hand points that way. By Jesus’ day the posture had flipped. He and his disciples “reclined at table” (Matt 26:20), the way free people ate. Later Jewish tradition required even the poorest person to recline at Passover, and it treated the haste of that first night as belonging only to the Passover in Egypt.'] },
+        { t: 'The bread', x: '26%', y: '53%', ref: 'Exodus 12:34, 39', src: 'Going Deeper', body: ['Matzah (MAHT-zuh): bread made without yeast. Israel left before the dough could rise (12:34, 39).', 'Ancient leaven was a lump of old fermented dough saved from the last batch, a lot like sourdough starter. Clearing all of it out for seven days (12:15) meant a clean break and a fresh start.'] },
+        { t: 'The lamb', x: '40%', y: '58%', ref: 'Exodus 12:3–10, 46', src: 'Going Deeper', body: ['The Hebrew word seh can mean a lamb or a young goat. It had to be a year-old male with no defect, chosen on the 10th and kept until the 14th (12:3–6). Small households shared one with their neighbors (12:4).', 'It was roasted whole over the fire, “its head with its legs and its inner parts,” not eaten raw or boiled (12:9). Anything left by morning was burned (12:10), and none of its bones could be broken (12:46).'] },
+        { t: 'The bitter herbs', x: '9%', y: '62%', ref: 'Exodus 12:8', src: 'Going Deeper', body: ['Exodus 1:14 says the Egyptians “made their lives bitter with hard service.” The word for “bitter herbs” in 12:8 comes from the same Hebrew root. Every bite tasted like the slavery they were about to leave.'] }
+      ]
+    },
+    {
+      img: 'uploads/Gemini_Generated_Image_58hphp58hphp58hp.jpeg',
+      alt: 'A mud-brick house at night with blood on the doorframe, hyssop at the threshold, and light resting over the door',
+      label: 'At the Door',
+      intro: 'Outside, blood was drying on their doorframes, and they were waiting for God to do what he had said.',
+      spots: [
+        { t: 'The blood', x: '52%', y: '35%', ref: 'Exodus 12:13', src: 'Going Deeper', body: ['Everyone agrees on this much: the blood was a sign of trust, and God honored it. “The blood shall be a sign for you… and when I see the blood, I will pass over you” (12:13).', 'God didn’t need the blood to find Israel. In earlier plagues he had already kept them safe with no marker at all, sparing their land and their livestock (8:22–23; 9:4, 26; 10:23).'] },
+        { t: 'The doorframe', x: '42%', y: '55%', ref: 'Exodus 12:13', src: 'Teacher Notes', body: ['No. In earlier plagues, he protected Israel with no marker at all (8:22–23; 9:26; 10:23). He calls the blood “a sign for you” (12:13). Marking the doorframe was a family’s way of saying they believed him.', '“God didn’t need a map. The blood was their way of saying, ‘We trust you.’”'] },
+        { t: 'The hyssop', x: '50%', y: '84%', ref: 'Exodus 12:22', src: 'Teacher Notes · Going Deeper', body: ['Hyssop: a small, common leafy plant used as a brush for the blood (12:22).', 'Israel’s faith that night looked like a bundle of hyssop and a bowl. For most students, faith will look just as small and physical: one right choice, made because God said so, before they can see how it turns out.'] },
+        { t: 'The door', x: '62%', y: '62%', ref: 'Exodus 12:23', src: 'Going Deeper', body: ['Exodus 12:23 fits the “protect” reading well. The LORD “will pass over the door and will not allow the destroyer to enter your houses.” The picture there is God standing guard at the door rather than simply skipping a house.', 'This was never magic. Other ancient peoples painted doorways to scare off evil spirits, but in Exodus the blood had no power of its own. It was a sign of a family trusting God.'] },
+        { t: 'The watch', x: '50%', y: '9%', ref: 'Exodus 12:42', src: 'Teacher Notes', body: ['Isaiah uses the same verb for God shielding Jerusalem like a bird over its nest (Isa 31:5), and Exodus calls this “a night of watching by the LORD” (12:42).', 'Pesach (PAY-sakh): Hebrew for Passover. Traditionally “pass over,” though many scholars read it as “protect” (Isa 31:5).'] }
+      ]
+    }
+  ];
+  open(room, i) {
+    this.setState(s => ({ room, active: i, seen: { ...s.seen, [room + ':' + i]: true } }));
+  }
+  renderVals() {
+    const s = this.state, R = this.ROOMS[s.room], gold = 'oklch(0.82 0.11 80)', ink = 'oklch(0.17 0.025 265)';
+    const a = s.active >= 0 ? R.spots[s.active] : null;
+    const last = s.active === R.spots.length - 1;
+    const total = this.ROOMS.reduce((n, r) => n + r.spots.length, 0);
+    const seen = Object.keys(s.seen).length;
+    const tab = (on) => ({ bg: on ? gold : 'transparent', c: on ? ink : 'oklch(0.82 0.02 80)' });
+    const ti = tab(s.room === 0), td = tab(s.room === 1);
+    return {
+      img: R.img, imgAlt: R.alt,
+      tabInBg: ti.bg, tabInColor: ti.c, tabDoorBg: td.bg, tabDoorColor: td.c,
+      toInside: () => this.setState({ room: 0, active: -1 }),
+      toDoor: () => this.setState({ room: 1, active: -1 }),
+      spots: R.spots.map((p, i) => {
+        const on = i === s.active, wasSeen = !!s.seen[s.room + ':' + i];
+        return {
+          n: i + 1, title: p.t, x: p.x, y: p.y,
+          pulse: on || wasSeen ? 'none' : 'block',
+          bg: on ? gold : wasSeen ? 'oklch(0.3 0.03 265 / 0.9)' : 'oklch(0.6 0.18 28)',
+          color: on ? ink : 'oklch(0.98 0.01 80)',
+          chipBorder: on ? gold : 'oklch(0.34 0.03 265)', chipBg: on ? gold : 'transparent', chipColor: on ? ink : wasSeen ? 'oklch(0.66 0.02 80)' : 'oklch(0.9 0.015 80)',
+          onClick: () => this.open(s.room, i)
+        };
+      }),
+      progress: seen + ' of ' + total + ' explored',
+      hasActive: !!a, noActive: !a,
+      activeKey: s.room + '-' + s.active,
+      activeTitle: a ? a.t : '', activeRef: a ? a.ref : '', activeSource: a ? a.src : '', activeBody: a ? a.body : [],
+      introLabel: R.label, introText: R.intro,
+      start: () => this.open(s.room, 0),
+      prev: () => s.active > 0 ? this.open(s.room, s.active - 1) : (s.room === 1 ? this.open(0, this.ROOMS[0].spots.length - 1) : null),
+      next: () => !last ? this.open(s.room, s.active + 1) : (s.room === 0 ? this.open(1, 0) : this.setState({ active: -1 })),
+      nextLabel: !last ? 'Next →' : s.room === 0 ? 'Step outside to the door →' : 'Done'
+    };
+  }
+}
+</script>
+</body>
+</html>

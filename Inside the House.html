@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inside the House · The First Passover</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* Inside the House: self-contained tab. All styles are scoped to .ith so it can drop into the Teacher Notes page. */
+.ith {
+  color-scheme: dark;
+  --night: #161c3a;
+  --night-2: #232b55;
+  --lamp: #f0b34a;
+  --parchment: #f4e8cf;
+  --ink: #2a1c12;
+  --rust: #93391f;
+  --cream: #efe2c8;
+  --muted: #b9b2c9;
+  --s: 1;
+  background: var(--night);
+  color: var(--cream);
+  font-family: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.55;
+  padding: 32px 24px 40px;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+@media (prefers-color-scheme: dark) {
+  .ith { --night: #11152c; --night-2: #1d2448; }
+}
+html, body { margin: 0; background: #161c3a; }
+.ith *, .ith *::before, .ith *::after { box-sizing: border-box; }
+
+.ith-wrap { max-width: 1240px; margin: 0 auto; }
+
+.ith-head {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.ith-title {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 600; font-size: 34px; line-height: 1.1;
+  letter-spacing: -0.01em; margin: 0;
+}
+.ith-sub { margin: 6px 0 0; color: var(--muted); font-size: 16px; }
+
+.ith-walk {
+  font: inherit; font-weight: 700; font-size: 15px;
+  background: var(--lamp); color: var(--ink);
+  border: 0; border-radius: 999px; padding: 10px 20px;
+  cursor: pointer; white-space: nowrap; margin-left: 24px;
+}
+.ith-walk:hover { background: #f6c46a; }
+
+.ith-stage {
+  position: relative; width: 100%; aspect-ratio: 1376 / 768;
+  overflow: hidden; border-radius: 10px;
+  background: var(--night-2);
+  box-shadow: 0 0 0 1px rgba(240,179,74,.18), 0 24px 60px rgba(0,0,0,.45);
+}
+.ith-layer {
+  position: absolute; inset: 0;
+  transform-origin: 0 0;
+  transition: transform .8s cubic-bezier(.2,.7,.2,1);
+}
+.ith-layer img { width: 100%; height: 100%; display: block; user-select: none; }
+.ith-veil {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(circle at var(--fx, 30%) 50%, transparent 0 18%, rgba(10,12,30,.35) 55%);
+  opacity: 0; transition: opacity .6s;
+}
+.ith.is-open .ith-veil { opacity: 1; }
+
+.ith-spot {
+  position: absolute; width: 14px; height: 14px; margin: 0; padding: 0;
+  left: 0; top: 0;
+  transform: translate(-50%, -50%) scale(calc(1 / var(--s)));
+  border-radius: 999px; border: 2px solid #fff6df;
+  background: var(--lamp); color: var(--ink);
+  font: 700 12px/1 "Atkinson Hyperlegible", sans-serif;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  white-space: nowrap; overflow: hidden;
+  box-shadow: 0 0 0 4px rgba(240,179,74,.22), 0 0 12px 3px rgba(240,179,74,.55);
+  transition: transform .8s cubic-bezier(.2,.7,.2,1), width .2s, height .2s, padding .2s, opacity .3s, background .2s;
+}
+.ith-spot .ith-num, .ith-spot .ith-lbl { display: none; }
+/* On hover or keyboard focus, the point opens into a small label with its number and name */
+.ith-spot:hover, .ith-spot:focus-visible, .ith-spot.is-active {
+  width: auto; height: 26px; padding: 0 10px 0 8px; z-index: 2;
+  background: #fff6df;
+}
+.ith-spot:hover .ith-num, .ith-spot:focus-visible .ith-num, .ith-spot.is-active .ith-num { display: inline; margin-right: 6px; color: var(--rust); }
+.ith-spot:hover .ith-lbl, .ith-spot:focus-visible .ith-lbl { display: inline; font-weight: 700; }
+.ith-spot.is-active { background: var(--rust); border-color: #fff6df; box-shadow: 0 0 0 5px rgba(255,246,223,.35), 0 0 24px 6px rgba(240,179,74,.6); }
+.ith-spot.is-active .ith-num { color: #fff6df; margin-right: 0; }
+.ith.is-open .ith-spot:not(.is-active):not(:hover) { opacity: .55; }
+.ith-spot:focus-visible, .ith-walk:focus-visible, .ith-panel button:focus-visible { outline: 3px solid #fff6df; outline-offset: 3px; }
+.ith:not(.is-touched) .ith-spot { animation: ith-glow 2.6s ease-in-out 3; }
+@keyframes ith-glow {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(240,179,74,.22), 0 0 12px 3px rgba(240,179,74,.55); }
+  50% { box-shadow: 0 0 0 10px rgba(240,179,74,.06), 0 0 22px 7px rgba(240,179,74,.75); }
+}
+
+.ith-panel {
+  position: absolute; top: 0; right: 0; bottom: 0; width: 40%;
+  background: var(--parchment); color: var(--ink);
+  padding: 28px 30px 20px;
+  display: flex; flex-direction: column;
+  transform: translateX(102%);
+  transition: transform .55s cubic-bezier(.2,.7,.2,1);
+  box-shadow: -18px 0 40px rgba(0,0,0,.35);
+}
+.ith.is-open .ith-panel { transform: translateX(0); }
+.ith-panel-scroll { overflow-y: auto; flex: 1; padding-right: 6px; }
+.ith-count { font-size: 14px; color: #6b5844; margin: 0 0 4px; }
+.ith-ptitle {
+  font-family: "Fraunces", Georgia, serif; font-weight: 600;
+  font-size: 28px; line-height: 1.15; margin: 0 0 6px;
+}
+.ith-ref { font-size: 15px; font-weight: 700; color: var(--rust); margin: 0 0 18px; }
+.ith-block { margin: 0 0 16px; }
+.ith-block h4 {
+  font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: 17px;
+  margin: 0 0 4px; color: #5a3a24;
+}
+.ith-block p { margin: 0; font-size: 16px; line-height: 1.6; }
+.ith-block a { color: var(--rust); }
+.ith-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid rgba(42,28,18,.18); padding-top: 14px; margin-top: 8px;
+}
+.ith-nav button {
+  font: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
+  border-radius: 999px; padding: 8px 16px;
+}
+.ith-prev, .ith-close { background: transparent; color: var(--ink); border: 1.5px solid rgba(42,28,18,.35); }
+.ith-next { background: var(--ink); color: var(--parchment); border: 1.5px solid var(--ink); }
+.ith-close { margin-right: auto; }
+.ith-prev { margin-right: 8px; }
+.ith-prev:disabled { opacity: .35; cursor: default; }
+
+.ith-cap { margin: 14px 2px 0; font-size: 14px; color: var(--muted); max-width: 900px; }
+.ith-cap kbd {
+  font-family: inherit; font-size: 13px; border: 1px solid rgba(239,226,200,.35);
+  border-radius: 4px; padding: 0 5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ith-layer, .ith-spot, .ith-panel, .ith-veil { transition: none; }
+  .ith:not(.is-touched) .ith-spot { animation: none; }
+}
+@media (max-width: 760px) {
+  .ith-head { flex-direction: column; align-items: flex-start; }
+  .ith-walk { margin: 12px 0 0; }
+  .ith-panel { width: 100%; }
+}
+</style>
+</head>
+<body>
+<section class="ith" id="ith" aria-label="Inside the House: an interactive picture of the first Passover">
+  <div class="ith-wrap">
+    <a href="Passover Teacher Notes v2.dc.html" style="display:inline-flex;align-items:center;gap:8px;margin-bottom:20px;padding:9px 16px;border-radius:999px;border:1px solid #4a5280;color:#efe2c8;text-decoration:none;font-weight:700;font-size:14px;" onmouseover="this.style.background='#232b55'" onmouseout="this.style.background='transparent'">← Back to Teacher Notes</a>
+    <div class="ith-head">
+      <div>
+        <h2 class="ith-title">Inside the House</h2>
+        <p class="ith-sub">The night of the first Passover, Exodus 11–12. Click a glowing point to learn about it, or walk through the night in order.</p>
+      </div>
+      <button class="ith-walk" type="button" id="ith-walk">Walk through the night</button>
+    </div>
+
+    <div class="ith-stage" id="ith-stage">
+      <div class="ith-layer" id="ith-layer">
+        <img src="uploads/Gemini_Generated_Image_nrtaa1nrtaa1nrta.jpeg" alt="An Israelite family stands dressed for travel around a table with a roasted lamb, flatbread, and bitter greens, while neighbors outside mark their doorframes with blood at twilight." draggable="false">
+      </div>
+      <div class="ith-veil" id="ith-veil"></div>
+      <aside class="ith-panel" id="ith-panel" aria-live="polite" aria-hidden="true">
+        <div class="ith-panel-scroll">
+          <p class="ith-count" id="ith-count"></p>
+          <h3 class="ith-ptitle" id="ith-ptitle"></h3>
+          <p class="ith-ref" id="ith-ref"></p>
+          <div class="ith-block"><h4>What happened</h4><p id="ith-what"></p></div>
+          <div class="ith-block"><h4>Why it matters</h4><p id="ith-why"></p></div>
+          <div class="ith-block"><h4>Where it shows up again</h4><p id="ith-con"></p></div>
+        </div>
+        <div class="ith-nav">
+          <button class="ith-close" type="button" id="ith-close">Close</button>
+          <button class="ith-prev" type="button" id="ith-prev">Back</button>
+          <button class="ith-next" type="button" id="ith-next">Next</button>
+        </div>
+      </aside>
+    </div>
+
+    <p class="ith-cap">The illustration is an artist's interpretation, made with AI. Exodus doesn't describe the house, the family, or their clothes. Every point you can click is tied to Exodus 11–12 (quotes from the ESV). Use <kbd>←</kbd> <kbd>→</kbd> to move and <kbd>Esc</kbd> to close.</p>
+  </div>
+</section>
+
+<script>
+(function () {
+  var SPOTS = [
+    { x: 13, y: 7.5, title: "A full moon and a new calendar", ref: "Exodus 12:2, 6",
+      what: "God tells Moses, \u201cThis month shall be for you the beginning of months\u201d (12:2). The lamb is killed on the 14th, and in a calendar that follows the moon, the 14th falls at the full moon.",
+      why: "Israel\u2019s year now starts with the night God rescued them. The full moon also meant a bright night, bright enough to pack and travel by.",
+      con: "The month was called Abib (\u201cripe barley\u201d) and later Nisan. Jesus died at Passover, under the same spring full moon." },
+    { x: 73, y: 63, title: "The lamb", ref: "Exodus 12:3\u201310, 46",
+      what: "On the 10th, each household chooses a year-old male with no defect and keeps it until the 14th (12:3\u20136). The Hebrew word (<i>seh</i>) can mean a lamb or a young goat. They kill it at twilight and roast it whole over the fire, head and legs included (12:8\u20139).",
+      why: "Small households split a lamb with their neighbors (12:4), and nothing is left by morning (12:10). God also says not one of its bones may be broken (12:46). (In the picture, the stack of bread hides the lamb\u2019s head.)",
+      con: "John sees the unbroken bones fulfilled at the cross (John 19:36), and Paul writes, \u201cChrist, our Passover lamb, has been sacrificed\u201d (1 Cor 5:7)." },
+    { x: 29, y: 84, title: "The basin and the hyssop", ref: "Exodus 12:22",
+      what: "Families dip a bunch of hyssop in the blood in the basin and touch it to the doorframe (12:22).",
+      why: "Hyssop was small and common, so every household had what it needed to obey. Nobody knows for certain which plant it was. Many think it was a Syrian marjoram, also called za\u2019atar. The Hebrew word for \u201cbasin\u201d (<i>saf</i>) can also mean \u201cthreshold,\u201d and the Greek translation of the Old Testament (the Septuagint) reads it that way.",
+      con: "Hyssop shows up again at the cross when they put a sponge full of sour wine on a hyssop branch and give it to Jesus (John 19:29)." },
+    { x: 35.5, y: 21, title: "Blood on the doorframe", ref: "Exodus 12:7, 13",
+      what: "The blood goes on the lintel, the beam across the top, and on the two doorposts (12:7).",
+      why: "God calls it \u201ca sign for you\u201d (12:13). In earlier plagues he had already kept Israel safe with no marker at all (8:22\u201323; 9:26), so the blood was for the family. Marking the door was how they showed they believed what God said.",
+      con: "The Hebrew word for doorpost is <i>mezuzah</i>. Many Jewish homes today fix a small case by that name to their doorposts, holding a scroll of Deuteronomy 6:4\u20139." },
+    { x: 15, y: 48, title: "The whole street", ref: "Exodus 12:21\u201328",
+      what: "Moses gathers the elders and tells every family what to do (12:21\u201323). Then the text says simply, \u201cthe people of Israel went and did so\u201d (12:28).",
+      why: "A whole community obeyed at the same hour, at twilight, before every door shut for the night. Each family trusted God\u2019s word for itself.",
+      con: "The Passover meal was built for sharing. Neighbors split a lamb (12:4), and foreigners who joined Israel could eat it on the same terms (12:48\u201349)." },
+    { x: 37.5, y: 53, title: "The closed door", ref: "Exodus 12:22\u201323",
+      what: "\u201cNone of you shall go out of the door of his house until the morning\u201d (12:22).",
+      why: "The next verse puts God himself at the door: the LORD \u201cwill pass over the door and will not allow the destroyer to enter your houses\u201d (12:23). That\u2019s why many scholars think <i>pesach</i>, the word behind \u201cPassover,\u201d means \u201cprotect.\u201d Scholars still debate who \u201cthe destroyer\u201d is (an angel, or the plague itself), and 12:12 says God is the one acting.",
+      con: "Isaiah uses the same word for God shielding Jerusalem like a bird hovering over its nest (Isa 31:5). A lot of fear and anxiety comes from worrying that something bad will get in. Passover pictures God himself at the door, protecting his people and keeping the destroyer out." },
+    { x: 60.5, y: 50, title: "Dressed to leave", ref: "Exodus 12:11",
+      what: "\u201cIn this manner you shall eat it: with your belt fastened, your sandals on your feet, and your staff in your hand. And you shall eat it in haste\u201d (12:11).",
+      why: "They ate ready to run while they were still slaves. The text doesn\u2019t say \u201cstand,\u201d but a staff in hand points that way. Nothing outside had changed yet, and they got ready because God said they were leaving.",
+      con: "By Jesus\u2019 day, Passover was eaten reclining (Matt 26:20), the way free people ate. Jewish tradition later treated the haste of that first night as belonging to the Passover in Egypt only." },
+    { x: 64, y: 61, title: "Unleavened bread", ref: "Exodus 12:8, 15, 34, 39",
+      what: "The meal includes bread made without yeast (12:8). When Pharaoh finally said go, the dough hadn\u2019t risen, so they carried it in kneading bowls wrapped in their cloaks (12:34, 39).",
+      why: "Ancient leaven was a lump of old fermented dough saved from the last batch. Clearing it all out for seven days (12:15) meant a clean break and a fresh start.",
+      con: "Paul later uses leaven as a picture of sin spreading through a church (1 Cor 5:6\u20138). That picture is Paul\u2019s. In Exodus, unleavened bread is about haste and starting over." },
+    { x: 57.5, y: 66, title: "Bitter herbs", ref: "Exodus 12:8",
+      what: "They eat the lamb \u201cwith unleavened bread and bitter herbs\u201d (12:8).",
+      why: "Exodus 1:14 says the Egyptians \u201cmade their lives bitter with hard service,\u201d using the same Hebrew root. Every bite tasted like the slavery they were about to leave.",
+      con: "Jewish families still eat bitter herbs (<i>maror</i>) at the Passover Seder." },
+    { x: 72, y: 43, title: "\u201cWhat does this mean?\u201d", ref: "Exodus 12:26\u201327",
+      what: "\u201cWhen your children say to you, \u2018What do you mean by this service?\u2019 you shall say, \u2018It is the sacrifice of the LORD\u2019s Passover, for he passed over the houses of the people of Israel in Egypt\u2019\u201d (12:26\u201327).",
+      why: "God built questions into the meal. The answer he gives parents is a story about what God did for their own family.",
+      con: "The Jewish Haggadah, the script for the Passover Seder, gets its name from the Hebrew word for \u201ctell\u201d in Exodus 13:8. The youngest child at the table still asks the questions." },
+    { x: 47.5, y: 33.5, title: "A night of watching", ref: "Exodus 12:42",
+      what: "\u201cIt was a night of watching by the LORD, to bring them out of the land of Egypt; so this same night is a night of watching kept to the LORD by all the people of Israel throughout their generations\u201d (12:42).",
+      why: "God kept watch that night, so Israel keeps watch on it every year. Psalm 121:4 says it this way: \u201che who keeps Israel will neither slumber nor sleep.\u201d",
+      con: "In the Middle Ages, Christians turned this night into one of fear for Jewish communities through a false accusation known as the blood libel. The Go Deeper tells that history." },
+    { x: 67, y: 32, title: "Midnight", ref: "Exodus 12:29\u201332",
+      what: "\u201cAt midnight the LORD struck down all the firstborn in the land of Egypt\u201d (12:29), \u201cand there was a great cry in Egypt, for there was not a house where someone was not dead\u201d (12:30).",
+      why: "The cry reverses. Israel had cried out under slavery (2:23), and now Egypt cries. Pharaoh had ordered Israel\u2019s sons drowned (1:22), and God had called Israel \u201cmy firstborn son\u201d (4:22). The picture leaves Egypt\u2019s grief out on purpose, and the text never celebrates it.",
+      con: "That same night Pharaoh calls for Moses and says, \u201cGo\u2026 and bless me also!\u201d (12:31\u201332). By the next day, Israel was walking out (Num 33:3)." }
+  ];
+
+  var root = document.getElementById("ith");
+  var layer = document.getElementById("ith-layer");
+  var veil = document.getElementById("ith-veil");
+  var panel = document.getElementById("ith-panel");
+  var els = {
+    count: document.getElementById("ith-count"), title: document.getElementById("ith-ptitle"),
+    ref: document.getElementById("ith-ref"), what: document.getElementById("ith-what"),
+    why: document.getElementById("ith-why"), con: document.getElementById("ith-con")
+  };
+  var prevBtn = document.getElementById("ith-prev");
+  var nextBtn = document.getElementById("ith-next");
+  var current = -1;
+  var SCALE = 1.7, FX = 30, FY = 50;
+  var buttons = [];
+
+  SPOTS.forEach(function (s, i) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "ith-spot";
+    b.style.left = s.x + "%";
+    b.style.top = s.y + "%";
+    b.innerHTML = "<span class=\"ith-num\">" + (i + 1) + "</span><span class=\"ith-lbl\">" + s.title + "</span>";
+    b.setAttribute("aria-label", (i + 1) + ". " + s.title.replace(/[\u201c\u201d]/g, ""));
+    b.addEventListener("click", function () { open(i); });
+    layer.appendChild(b);
+    buttons.push(b);
+  });
+
+  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+  function zoomTo(s) {
+    var tx = clamp(FX - SCALE * s.x, 100 - 100 * SCALE, 0);
+    var ty = clamp(FY - SCALE * s.y, 100 - 100 * SCALE, 0);
+    layer.style.transform = "translate(" + tx + "%," + ty + "%) scale(" + SCALE + ")";
+    root.style.setProperty("--s", SCALE);
+    veil.style.setProperty("--fx", (tx + SCALE * s.x) + "%");
+  }
+
+  function open(i) {
+    root.classList.add("is-touched", "is-open");
+    current = i;
+    var s = SPOTS[i];
+    els.count.textContent = (i + 1) + " of " + SPOTS.length;
+    els.title.innerHTML = s.title;
+    els.ref.textContent = s.ref;
+    els.what.innerHTML = s.what;
+    els.why.innerHTML = s.why;
+    els.con.innerHTML = s.con;
+    panel.querySelector(".ith-panel-scroll").scrollTop = 0;
+    panel.setAttribute("aria-hidden", "false");
+    prevBtn.disabled = i === 0;
+    nextBtn.textContent = i === SPOTS.length - 1 ? "Start over" : "Next";
+    buttons.forEach(function (b, k) { b.classList.toggle("is-active", k === i); });
+    zoomTo(s);
+  }
+
+  function close() {
+    root.classList.remove("is-open");
+    panel.setAttribute("aria-hidden", "true");
+    layer.style.transform = "";
+    root.style.setProperty("--s", 1);
+    buttons.forEach(function (b) { b.classList.remove("is-active"); });
+    if (current >= 0) buttons[current].focus();
+    current = -1;
+  }
+
+  document.getElementById("ith-walk").addEventListener("click", function () { open(0); });
+  document.getElementById("ith-close").addEventListener("click", close);
+  prevBtn.addEventListener("click", function () { if (current > 0) open(current - 1); });
+  nextBtn.addEventListener("click", function () { open(current < SPOTS.length - 1 ? current + 1 : 0); });
+
+  document.addEventListener("keydown", function (e) {
+    if (current < 0) return;
+    if (e.key === "Escape") close();
+    else if (e.key === "ArrowRight") open(current < SPOTS.length - 1 ? current + 1 : 0);
+    else if (e.key === "ArrowLeft" && current > 0) open(current - 1);
+  });
+})();
+</script>
+</body>
+</html>

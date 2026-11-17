@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth}
+body{margin:0;background:oklch(0.17 0.025 265);color:oklch(0.94 0.012 80);font-family:Figtree,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:oklch(0.82 0.11 80);text-decoration:underline;text-underline-offset:3px}
+a:hover{color:oklch(0.9 0.08 80)}
+button{font-family:inherit}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media print{nav{display:none!important}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</helmet>
+<div style="min-height:100vh;">
+
+<nav style="position:sticky;top:0;z-index:10;background:oklch(0.17 0.025 265 / 0.92);backdrop-filter:blur(10px);border-bottom:1px solid oklch(0.3 0.03 265);">
+  <div style="max-width:1120px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;gap:16px;">
+    <div style="font-family:'Instrument Serif',serif;font-size:20px;display:flex;align-items:center;gap:10px;flex:none;">
+      <span style="width:10px;height:10px;background:oklch(0.6 0.18 28);display:inline-block;"></span>Going Deeper
+    </div>
+    <div style="display:flex;align-items:center;gap:4px;overflow-x:auto;flex:1;min-width:0;padding:2px 0;">
+      <sc-for list="{{ navChips }}" as="c" hint-placeholder-count="11">
+        <button onClick="{{ c.onClick }}" title="{{ c.title }}" style="flex:none;min-width:34px;height:32px;padding:0 10px;margin-left:{{ c.ml }};border-radius:999px;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.color }};font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;">{{ c.n }}</button>
+      </sc-for>
+    </div>
+    <div style="display:flex;gap:6px;flex:none;">
+      <button onClick="{{ toggleAll }}" style="padding:7px 12px;border-radius:999px;border:1px solid oklch(0.38 0.03 265);background:transparent;color:oklch(0.86 0.02 80);font-size:12px;font-weight:600;cursor:pointer;" style-hover="background:oklch(0.26 0.03 265)">{{ allLabel }}</button>
+      <button onClick="{{ printPage }}" style="padding:7px 12px;border-radius:999px;border:none;background:oklch(0.82 0.11 80);color:oklch(0.17 0.025 265);font-size:12px;font-weight:700;cursor:pointer;" style-hover="background:oklch(0.88 0.09 80)">Print</button>
+    </div>
+  </div>
+</nav>
+
+<header style="background:radial-gradient(ellipse 70% 80% at 80% 0%, oklch(0.25 0.045 265) 0%, oklch(0.17 0.025 265) 70%);">
+  <div style="max-width:1120px;margin:0 auto;padding:clamp(48px,7vw,88px) 24px 56px;display:flex;flex-direction:column;gap:48px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:clamp(32px,5vw,72px);align-items:end;">
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.82 0.11 80);">Going Deeper · Teacher Resource</div>
+        <h1 style="font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(60px,8.5vw,112px);line-height:0.9;margin:0;letter-spacing:-0.01em;">The Passover</h1>
+        <div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:clamp(24px,3vw,34px);color:oklch(0.78 0.02 80);">Exodus 11–12</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.66 0.02 80);margin-top:10px;">Nov 6, 2026 · Eric Turner</div>
+      </div>
+      <p style="margin:0;font-family:'Instrument Serif',serif;font-size:clamp(22px,2.4vw,28px);line-height:1.4;color:oklch(0.9 0.015 80);text-wrap:pretty;">On one spring night in Egypt, families ate a hurried dinner with their sandals on and their staffs in hand. Outside, blood was drying on their doorframes, and they were waiting for God to do what he had said. That night raises some of the hardest questions students ask about the Bible, and it points straight to the cross.</p>
+    </div>
+    <div style="border-top:1px solid oklch(0.32 0.03 265);padding-top:28px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.66 0.02 80);">Nine questions in five parts</div>
+        <div style="font-size:13px;color:oklch(0.66 0.02 80);">Pick a question to start</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:12px;">
+        <sc-for list="{{ map }}" as="p" hint-placeholder-count="6">
+          <div style="display:flex;flex-direction:column;gap:6px;padding-top:12px;border-top:3px solid {{ p.accent }};">
+            <div style="font-size:13px;font-weight:700;color:oklch(0.94 0.012 80);margin-bottom:4px;">{{ p.name }}</div>
+            <sc-for list="{{ p.items }}" as="it" hint-placeholder-count="2">
+              <button onClick="{{ it.onClick }}" style="all:unset;cursor:pointer;display:grid;grid-template-columns:28px minmax(0,1fr);gap:6px;padding:8px 8px 8px 0;border-radius:4px;font-size:14px;line-height:1.35;color:oklch(0.78 0.02 80);" style-hover="color:oklch(0.94 0.012 80);background:oklch(0.24 0.03 265)">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:oklch(0.82 0.11 80);padding-top:2px;padding-left:6px;">{{ it.n }}</span><span>{{ it.t }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="reader" style="max-width:1120px;margin:0 auto;padding:72px 24px 48px;display:flex;flex-direction:column;gap:120px;">
+
+<sc-if value="{{ v0 }}" hint-placeholder-val="{{ true }}">
+<article id="ch0" style="display:flex;flex-direction:column;gap:28px;animation:rise .4s ease;">
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:12px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.82 0.11 80);">The Night · Question 1</div>
+    <h2 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(40px,5.4vw,64px);line-height:1.02;max-width:900px;text-wrap:balance;">Why Did God Strike Egypt’s Firstborn?</h2>
+  </div>
+  <div style="max-width:760px;display:flex;flex-direction:column;gap:10px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.68 0.02 80);">The short answer</div>
+    <p style="margin:0;font-family:'Instrument Serif',serif;font-size:clamp(26px,3vw,34px);line-height:1.25;text-wrap:pretty;">the tenth plague is a showdown over whose sons matter, and God takes the side of the families Pharaoh treated as disposable.</p>
+  </div>
+  <div style="max-width:720px;display:flex;flex-direction:column;gap:22px;">
+    <p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.86 0.015 80);text-wrap:pretty;">It was Pharaoh who first ordered the Hebrew midwives to kill newborn boys (1:16), and when that failed, he commanded that every Hebrew son be thrown into the Nile (1:22). Before Moses ever went back to Egypt, God told him how this would end: “Israel is my firstborn son… If you refuse to let him go, behold, I will kill your firstborn son” (4:22–23). The text first records that warning being delivered to Pharaoh in 11:4–8, after nine plagues that grew more severe each time.</p>
+  </div>
+  <figure style="margin:8px 0;padding:clamp(24px,3vw,40px);border:1px solid oklch(0.3 0.03 265);border-radius:4px;background:oklch(0.2 0.028 265);display:flex;flex-direction:column;gap:24px;">
+    <figcaption style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.68 0.02 80);">The cry has reversed</figcaption>
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:clamp(12px,3vw,32px);align-items:center;">
+      <div style="padding:24px;border-radius:4px;border:1px solid oklch(0.36 0.03 265);display:flex;flex-direction:column;gap:8px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.82 0.11 80);">3:7, 9</div>
+        <div style="font-family:'Instrument Serif',serif;font-size:clamp(22px,2.6vw,30px);line-height:1.1;">Israel’s cry under slavery</div>
+      </div>
+      <div style="font-size:28px;color:oklch(0.82 0.11 80);">→</div>
+      <div style="padding:24px;border-radius:4px;background:oklch(0.42 0.14 28);display:flex;flex-direction:column;gap:8px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.94 0.02 80);">11:6; 12:30</div>
+        <div style="font-family:'Instrument Serif',serif;font-size:clamp(22px,2.6vw,30px);line-height:1.1;">Egypt’s “great cry”</div>
+      </div>
+    </div>
+  </figure>
+  <div style="max-width:720px;display:flex;flex-direction:column;gap:22px;">
+    <p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.86 0.015 80);text-wrap:pretty;">The Hebrew word for Egypt’s “great cry” (11:6; 12:30) is the same word used for Israel’s cry under slavery (3:7, 9). The cry has reversed. In this plague, God also says he will go out himself, “about midnight I will go out in the midst of Egypt” (11:4; compare 12:12). The earlier plagues came through Moses’ or Aaron’s staff and hand, and this one has no staff in it at all. “Firstborn” meant the oldest son at any age, “from the firstborn of Pharaoh who sits on his throne” to the son of a servant at the handmill (11:5). Pharaoh’s heir was seen in Egypt as a god in waiting, which is part of why God calls this night judgment “on all the gods of Egypt” (12:12).</p>
+    <p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.86 0.015 80);text-wrap:pretty;">The door also stayed open. Some of Pharaoh’s own officials took God’s warnings seriously (9:20), and “a mixed multitude” of non-Israelites left Egypt with Israel (12:38).</p>
+    <p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.86 0.015 80);text-wrap:pretty;">What happens next shows what the night was about. Right after the exodus, God claims every firstborn in Israel as his own (13:2). Each firstborn son had to be “redeemed,” bought back with a price. Exodus ties that law directly to this night: the LORD killed Egypt’s firstborn, “but all the firstborn of my sons I redeem” (13:15). Later the Levites stood in for the firstborn (Num 3:12–13), and Mary and Joseph kept this same law for Jesus (Luke 2:22–23).</p>
+  </div>
+  <figure style="margin:8px 0;padding:clamp(24px,3vw,40px);border:1px solid oklch(0.3 0.03 265);border-radius:4px;background:oklch(0.2 0.028 265);display:flex;flex-direction:column;gap:24px;">
+    <figcaption style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.68 0.02 80);">The firstborn, redeemed</figcaption>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:12px;">
+      <div style="display:flex;flex-direction:column;gap:8px;padding-top:14px;border-top:2px solid oklch(0.82 0.11 80);"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.82 0.11 80);">Exod 13:2</span><span style="font-size:15px;line-height:1.45;">God claims every firstborn in Israel as his own</span></div>
+      <div style="display:flex;flex-direction:column;gap:8px;padding-top:14px;border-top:2px solid oklch(0.82 0.11 80);"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.82 0.11 80);">Exod 13:15</span><span style="font-size:15px;line-height:1.45;">“but all the firstborn of my sons I redeem”</span></div>
+      <div style="display:flex;flex-direction:column;gap:8px;padding-top:14px;border-top:2px solid oklch(0.82 0.11 80);"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.82 0.11 80);">Num 3:12–13</span><span style="font-size:15px;line-height:1.45;">The Levites stood in for the firstborn</span></div>
+      <div style="display:flex;flex-direction:column;gap:8px;padding-top:14px;border-top:2px solid oklch(0.6 0.18 28);"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.75 0.14 28);">Luke 2:22–23</span><span style="font-size:15px;line-height:1.45;">Mary and Joseph kept this same law for Jesus</span></div>
+    </div>
+  </figure>
+  <div style="max-width:720px;background:oklch(0.82 0.11 80);color:oklch(0.2 0.03 265);border-radius:4px;padding:26px 30px;display:flex;flex-direction:column;gap:12px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;">It’s ok to say</div>
+    <p style="margin:0;font-family:'Instrument Serif',serif;font-size:24px;line-height:1.35;text-wrap:pretty;">“This is one of the hardest parts of the Bible. God was standing up for families Pharaoh hurt, and he warned Pharaoh again and again. It’s still heavy, and the Bible lets it be heavy.”</p>
+  </div>
+  <div style="max-width:720px;border:1px solid oklch(0.34 0.03 265);border-radius:4px;padding:26px 30px;display:flex;flex-direction:column;gap:12px;background:oklch(0.21 0.03 265);">
+    <div style="display:flex;align-items:center;gap:10px;"><span style="width:8px;height:8px;background:oklch(0.82 0.11 80);"></span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.82 0.11 80);">Connecting the Dots</span></div>
+    <p style="margin:0;font-size:19px;line-height:1.65;text-wrap:pretty;">Students notice fast when adults treat some people as if they don’t matter. Exodus answers that God notices too. The families Pharaoh tried to erase, God calls “my firstborn son.”</p>
+  </div>
+</article>
+</sc-if>
+
+<sc-if value="{{ v1 }}" hint-placeholder-val="{{ false }}">
+<article id="ch1" style="display:flex;flex-direction:column;gap:28px;animation:rise .4s ease;">
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:12px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.82 0.11 80);">The Night · Question 2</div>
+    <h2 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(40px,5.4vw,64px);line-height:1.02;max-width:900px;text-wrap:balance;">How Could God Harden Pharaoh’s Heart and Still Hold Him Responsible?</h2>
+  </div>
+  <p style="margin:0;max-width:760px;font-family:'Instrument Serif',serif;font-size:clamp(26px,3vw,34px);line-height:1.25;text-wrap:pretty;">Exodus describes the hardening in more than one way, and that’s the key to this question.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px;">
+    <div style="padding:26px;border-radius:4px;border:1px solid oklch(0.34 0.03 265);display:flex;flex-direction:column;gap:14px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:oklch(0.68 0.02 80);">Pharaoh</div>
+      <p style="margin:0;font-size:17px;line-height:1.6;text-wrap:pretty;">Sometimes Pharaoh hardens his own heart (8:15, 32).</p>
+    </div>
+    <div style="padding:26px;border-radius:4px;border:1px solid oklch(0.34 0.03 265);display:flex;flex-direction:column;gap:14px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:oklch(0.68 0.02 80);">No one named</div>
+      <p style="margin:0;font-size:17px;line-height:1.6;text-wrap:pretty;">Sometimes the text simply says his heart was hardened (7:13).</p>
+    </div>
+    <div style="padding:26px;border-radius:4px;background:oklch(0.82 0.11 80);color:oklch(0.2 0.03 265);display:flex;flex-direction:column;gap:14px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;">God</div>
+      <p style="margin:0;font-size:17px;line-height:1.6;text-wrap:pretty;">And sometimes God hardens it (9:12; 10:1, 20, 27; 11:10), just as he told Moses he would (4:21; 7:3).</p>
+    </div>
+  </div>
+  <div style="max-width:720px;display:flex;flex-direction:column;gap:22px;">
+    <p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.86 0.015 80);text-wrap:pretty;">The theme shows up about twenty times across the story.</p>
+    <p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.86 0.015 80);text-wrap:pretty;">Read together, those descriptions hold two things at once: Pharaoh is guilty, and God is in control. Pharaoh chose “no” first and kept choosing it, even after relief came (8:15). Over time, God hardened a heart that was already hard. In Exodus, a hard heart means arrogance that stops listening to reason and stops feeling compassion.</p>
+  </div>
+  <figure style="margin:8px 0;padding:clamp(24px,3vw,40px);border:1px solid oklch(0.3 0.03 265);border-radius:4px;background:oklch(0.2 0.028 265);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:32px;align-items:center;">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:0;padding:20px 0 0;">
+      <div style="position:relative;width:min(100%,320px);height:150px;">
+        <div style="position:absolute;left:50%;top:18px;width:84%;height:4px;background:oklch(0.82 0.11 80);transform:translateX(-50%) rotate(-12deg);border-radius:2px;"></div>
+        <div style="position:absolute;left:50%;top:6px;width:16px;height:16px;border-radius:50%;background:oklch(0.82 0.11 80);transform:translateX(-50%);"></div>
+        <div style="position:absolute;left:50%;top:20px;width:4px;height:130px;background:oklch(0.5 0.04 80);transform:translateX(-50%);"></div>
+        <div style="position:absolute;left:8%;top:68px;width:30%;display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div style="width:100%;height:28px;border-radius:0 0 40px 40px;background:oklch(0.42 0.14 28);"></div>
+          <span style="font-size:13px;font-weight:700;">Heart · heavy</span>
+        </div>
+        <div style="position:absolute;right:8%;top:10px;width:30%;display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div style="width:100%;height:28px;border-radius:0 0 40px 40px;border:2px solid oklch(0.82 0.11 80);box-sizing:border-box;"></div>
+          <span style="font-size:13px;font-weight:700;">Feather · Maat</span>
+        </div>
+      </div>
+      <div style="width:120px;height:4px;background:oklch(0.5 0.04 80);border-radius:2px;"></div>
+    </div>
+    <p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.86 0.015 80);text-wrap:pretty;">One of the Hebrew words for hardening literally means “heavy,” and Egyptian readers may have caught why that matters. In the Egyptian Book of the Dead, a person’s heart is weighed on a scale against a feather representing Maat, the Egyptian idea of truth and justice. A heavy heart meant doom. Exodus tells us Pharaoh’s heart was heavy.</p>
+  </figure>
+  <div style="max-width:720px;display:flex;flex-direction:column;gap:22px;">
+    <p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.86 0.015 80);text-wrap:pretty;">Paul picks up this story in Romans 9:17–18, and Christians have debated how God’s sovereignty and Pharaoh’s choices fit together ever since. It’s fine to leave some of that unresolved.</p>
+  </div>
+  <div style="max-width:720px;background:oklch(0.82 0.11 80);color:oklch(0.2 0.03 265);border-radius:4px;padding:26px 30px;display:flex;flex-direction:column;gap:12px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;">It’s ok to say</div>
+    <p style="margin:0;font-family:'Instrument Serif',serif;font-size:24px;line-height:1.35;text-wrap:pretty;">“We don’t understand everything about how this works. Pharaoh kept saying no to God, and after a while God let that no become who he was.”</p>
+  </div>
+  <div style="max-width:720px;border:1px solid oklch(0.34 0.03 265);border-radius:4px;padding:26px 30px;display:flex;flex-direction:column;gap:12px;background:oklch(0.21 0.03 265);">
+    <div style="display:flex;align-items:center;gap:10px;"><span style="width:8px;height:8px;background:oklch(0.82 0.11 80);"></span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.82 0.11 80);">Connecting the Dots</span></div>
+    <p style="margin:0;font-size:19px;line-height:1.65;text-wrap:pretty;">Habits of the heart form early. A student who keeps brushing past a conscience is practicing Pharaoh’s pattern, one small “no” at a time. The same pattern runs the other way, too: every “yes” to God makes the next one easier.</p>
+  </div>
+</article>
+</sc-if>
+
+<sc-if value="{{ v2 }}" hint-placeholder-val="{{ false }}">
+<article id="ch2" style="display:flex;flex-direction:column;gap:28px;animation:rise .4s ease;">
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:12px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.82 0.11 80);">The Night · Question 3</div>
+    <h2 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(40px,5.4vw,64px);line-height:1.02;max-width:900px;text-wrap:balance;">What Did the Blood Actually Do?</h2>
+  </div>
+  <p style="margin:0;max-width:760px;font-family:'Instrument Serif',serif;font-size:clamp(26px,3vw,34px);line-height:1.25;text-wrap:pretty;">Everyone agrees on this much: the blood was a sign of trust, and God honored it.</p>
+  <div style="max-width:720px;display:flex;flex-direction:column;gap:22px;">
+    <p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.86 0.015 80);text-wrap:pretty;">“The blood shall be a sign for you… and when I see the blood, I will pass over you” (12:13). Beyond that, Christians read it in two main ways, and most evangelical teaching lands on the first.</p>
+    <p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.86 0.015 80);text-wrap:pretty;">God didn’t need the blood to find Israel. In earlier plagues he had already kept them safe with no marker at all, sparing their land and their livestock (8:22–23; 9:4, 26; 10:23). This was the first plague where Israel had to do something to be spared, and what they did was obey a word they couldn’t yet see come true. Hebrews puts it simply: “By faith he kept the Passover and sprinkled the blood” (Heb 11:28).</p>
+  </div>
+  <figure style="margin:8px 0;padding:clamp(24px,3vw,40px);border:1px solid oklch(0.3 0.03 265);border-radius:4px;background:oklch(0.2 0.028 265);display:flex;flex-direction:column;gap:22px;">
+    <figcaption style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.68 0.02 80);">Israel kept safe, plague by plague</figcaption>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <span style="padding:10px 14px;border-radius:999px;border:1px solid oklch(0.4 0.03 265);font-family:'JetBrains Mono',monospace;font-size:13px;">8:22–23</span>
+      <span style="color:oklch(0.5 0.03 265);">—</span>
+      <span style="padding:10px 14px;border-radius:999px;border:1px solid oklch(0.4 0.03 265);font-family:'JetBrains Mono',monospace;font-size:13px;">9:4</span>
+      <span style="color:oklch(0.5 0.03 265);">—</span>
+      <span style="padding:10px 14px;border-radius:999px;border:1px solid oklch(0.4 0.03 265);font-family:'JetBrains Mono',monospace;font-size:13px;">9:26</span>
+      <span style="color:oklch(0.5 0.03 265);">—</span>
+      <span style="padding:10px 14px;border-radius:999px;border:1px solid oklch(0.4 0.03 265);font-family:'JetBrains Mono',monospace;font-size:13px;">10:23</span>
+      <span style="color:oklch(0.82 0.11 80);font-size:20px;padding:0 6px;">→</span>
+      <span style="padding:10px 16px;border-radius:4px;background:oklch(0.55 0.18 28);font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;color:oklch(0.98 0.01 80);">12:13 · the blood</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px;font-size:15px;color:oklch(0.76 0.02 80);">
+      <span>no marker at all</span>
+      <span style="color:oklch(0.9 0.015 80);">the first plague where Israel had to do something to be spared</span>
+    </div>
+  </figure>
+  <div style="display:flex;flex-direction:column;gap:0;border:1px solid oklch(0.34 0.03 265);border-radius:4px;overflow:hidden;">
+    <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));">
+      <button onClick="{{ setReading0 }}" style="all:unset;box-sizing:border-box;cursor:pointer;padding:20px 24px;display:flex;flex-direction:column;gap:4px;background:{{ r0bg }};color:{{ r0color }};transition:all .25s;">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;opacity:0.8;">First reading</span>
+        <span style="font-family:'Instrument Serif',serif;font-size:clamp(22px,2.4vw,28px);line-height:1.1;">A substitute</span>
+      </button>
+      <button onClick="{{ setReading1 }}" style="all:unset;box-sizing:border-box;cursor:pointer;padding:20px 24px;display:flex;flex-direction:column;gap:4px;background:{{ r1bg }};color:{{ r1color }};transition:all .25s;border-left:1px solid oklch(0.34 0.03 265);">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;opacity:0.8;">Second reading</span>
+        <span style="font-family:'Instrument Serif',serif;font-size:clamp(22px,2.4vw,28px);line-height:1.1;">Protection, not a sin offering</span>
+      </button>
+    </div>
+    <div style="padding:clamp(24px,3.5vw,40px);background:oklch(0.21 0.03 265);">
+      <sc-if value="{{ reading0 }}" hint-placeholder-val="{{ true }}">
+        <p style="margin:0;max-width:720px;font-size:18px;line-height:1.75;color:oklch(0.88 0.015 80);text-wrap:pretty;animation:rise .3s ease;"><strong style="color:oklch(0.94 0.012 80);">The first reading: a substitute.</strong> Exodus 12:30 says there was not a house in Egypt “where someone was not dead.” One evangelical commentator points out that this was true of Israel’s houses too, because the lamb had died there. The lamb was even sized to the household (12:4), an exact match for the people it covered. God had called Israel his firstborn (4:22), and on this reading, God’s firstborn lived because the lamb died in their place. The New Testament reads Jesus’ death through this lens: “Christ, our Passover lamb, has been sacrificed” (1 Cor 5:7).</p>
+      </sc-if>
+      <sc-if value="{{ reading1 }}" hint-placeholder-val="{{ false }}">
+        <p style="margin:0;max-width:720px;font-size:18px;line-height:1.75;color:oklch(0.88 0.015 80);text-wrap:pretty;animation:rise .3s ease;"><strong style="color:oklch(0.94 0.012 80);">The second reading: protection, not a sin offering.</strong> Other scholars point out that chapter 12 never mentions sin, and the lamb is eaten as a family meal. Another evangelical commentator writes that Passover was “scarcely a sacrifice in the later sense,” though it still represents a life laid down. Some read the blood as cleansing the household and marking it as belonging to God. BibleProject’s short video “What Is Passover?” takes that approach.</p>
+      </sc-if>
+    </div>
+    <div style="padding:clamp(24px,3.5vw,40px);border-top:1px solid oklch(0.34 0.03 265);display:flex;flex-direction:column;gap:10px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.82 0.11 80);">Common ground</div>
+      <p style="margin:0;max-width:720px;font-size:18px;line-height:1.75;color:oklch(0.88 0.015 80);text-wrap:pretty;">Both readings see a life laid down and God protecting everyone under the blood. The text itself calls it “the sacrifice of the LORD’s Passover” (12:27), and the New Testament leans hard on the first reading, which is why most evangelical teaching treats the Passover lamb as a picture of substitution.</p>
+    </div>
+  </div>
+  <div style="max-width:720px;display:flex;flex-direction:column;gap:22px;">
+    <p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.86 0.015 80);text-wrap:pretty;">This was never magic. Other ancient peoples painted doorways to scare off evil spirits, but in Exodus the blood had no power of its own. It was a sign of a family trusting God.</p>
+  </div>
+  <div style="max-width:720px;background:oklch(0.82 0.11 80);color:oklch(0.2 0.03 265);border-radius:4px;padding:26px 30px;display:flex;flex-direction:column;gap:12px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;">It’s ok to say</div>
+    <p style="margin:0;font-family:'Instrument Serif',serif;font-size:24px;line-height:1.35;text-wrap:pretty;">“God saved them. The blood was how they showed they trusted him to.”</p>
+  </div>
+  <div style="max-width:720px;border:1px solid oklch(0.34 0.03 265);border-radius:4px;padding:26px 30px;display:flex;flex-direction:column;gap:12px;background:oklch(0.21 0.03 265);">
+    <div style="display:flex;align-items:center;gap:10px;"><span style="width:8px;height:8px;background:oklch(0.82 0.11 80);"></span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.82 0.11 80);">Connecting the Dots</span></div>
+    <p style="margin:0;font-size:19px;line-height:1.65;text-wrap:pretty;">Israel’s faith that night looked like a bundle of hyssop and a bowl. For most students, faith will look just as small and physical: one right choice, made because God said so, before they can see how it turns out.</p>
+  </div>
+</article>
+</sc-if>
+
+<sc-if value="{{ v3 }}" hint-placeholder-val="{{ false }}">
+<article id="ch3" style="display:flex;flex-direction:column;gap:28px;animation:rise .4s ease;">
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:12px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.82 0.11 80);">The Words and the Meal · Question 4</div>
+    <h2 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(40px,5.4vw,64px);line-height:1.02;max-width:900px;text-wrap:balance;">What Does “Passover” Mean?</h2>
+  </div>
+  <p style="margin:0;max-width:760px;font-family:'Instrument Serif',serif;font-size:clamp(26px,3vw,34px);line-height:1.25;text-wrap:pretty;">Probably “protect.” The traditional translation, “pass over,” isn’t wrong, but it misses something.</p>
+  <div style="max-width:720px;"><p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.86 0.015 80);text-wrap:pretty;">The Hebrew word is <em>pesach</em>, and scholars have suggested a few meanings for it.</p></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px;">
+    <div style="padding:26px;border-radius:4px;border:1px solid oklch(0.34 0.03 265);display:flex;flex-direction:column;gap:14px;">
+      <div style="font-family:'Instrument Serif',serif;font-size:34px;line-height:1;">pass over</div>
+      <p style="margin:0;font-size:16px;line-height:1.6;color:oklch(0.84 0.015 80);text-wrap:pretty;">The traditional one, behind the English word “Passover,” is to skip or pass by.</p>
+    </div>
+    <div style="padding:26px;border-radius:4px;background:oklch(0.82 0.11 80);color:oklch(0.2 0.03 265);display:flex;flex-direction:column;gap:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;"><span style="font-family:'Instrument Serif',serif;font-size:34px;line-height:1;">protect</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;">Probably</span></div>
+      <p style="margin:0;font-size:16px;line-height:1.6;text-wrap:pretty;">A second meaning comes from Isaiah, who uses the same verb for God defending Jerusalem: “Like birds hovering, so the LORD of hosts will protect Jerusalem; he will protect and deliver it; he will spare and rescue it” (Isa 31:5).</p>
+    </div>
+    <div style="padding:26px;border-radius:4px;border:1px solid oklch(0.34 0.03 265);display:flex;flex-direction:column;gap:14px;">
+      <div style="font-family:'Instrument Serif',serif;font-size:34px;line-height:1;">have compassion</div>
+      <p style="margin:0;font-size:16px;line-height:1.6;color:oklch(0.84 0.015 80);text-wrap:pretty;">Some of the oldest Jewish translations went a third direction and rendered it “have compassion.”</p>
+    </div>
+  </div>
+  <div style="max-width:720px;display:flex;flex-direction:column;gap:22px;">
+    <p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.86 0.015 80);text-wrap:pretty;">Exodus 12:23 fits the “protect” reading well. The LORD “will pass over the door and will not allow the destroyer to enter your houses.” The picture there is God standing guard at the door rather than simply skipping a house. Who “the destroyer” is stays debated. Some see an angel (compare 2 Sam 24:16), some see the plague itself, and 12:12 makes clear that God is the one acting.</p>
+  </div>
+  <figure style="margin:8px 0;padding:clamp(24px,3vw,40px);border:1px solid oklch(0.3 0.03 265);border-radius:4px;background:oklch(0.2 0.028 265);display:flex;flex-direction:column;gap:24px;">
+    <figcaption style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.68 0.02 80);">One word, many languages</figcaption>
+    <div style="display:grid;grid-template-columns:auto auto minmax(0,1fr);gap:clamp(12px,2.5vw,28px);align-items:center;">
+      <div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Instrument Serif',serif;font-size:clamp(30px,4vw,44px);font-style:italic;">pesach</span><span style="font-size:12px;color:oklch(0.68 0.02 80);">Hebrew</span></div>
+      <div style="display:flex;align-items:center;gap:clamp(12px,2.5vw,28px);"><span style="color:oklch(0.82 0.11 80);font-size:22px;">→</span><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Instrument Serif',serif;font-size:clamp(30px,4vw,44px);font-style:italic;">pascha</span><span style="font-size:12px;color:oklch(0.68 0.02 80);">Greek</span></div><span style="color:oklch(0.82 0.11 80);font-size:22px;">→</span></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <span style="padding:10px 16px;border-radius:999px;border:1px solid oklch(0.4 0.03 265);display:flex;gap:8px;align-items:baseline;"><span style="font-family:'Instrument Serif',serif;font-size:22px;">paschal</span><span style="font-size:11px;color:oklch(0.68 0.02 80);">English</span></span>
+        <span style="padding:10px 16px;border-radius:999px;border:1px solid oklch(0.4 0.03 265);display:flex;gap:8px;align-items:baseline;"><span style="font-family:'Instrument Serif',serif;font-size:22px;font-style:italic;">Pascua</span><span style="font-size:11px;color:oklch(0.68 0.02 80);">Spanish</span></span>
+        <span style="padding:10px 16px;border-radius:999px;border:1px solid oklch(0.4 0.03 265);display:flex;gap:8px;align-items:baseline;"><span style="font-family:'Instrument Serif',serif;font-size:22px;font-style:italic;">Pâques</span><span style="font-size:11px;color:oklch(0.68 0.02 80);">French</span></span>
+      </div>
+    </div>
+    <p style="margin:0;max-width:720px;font-size:17px;line-height:1.7;color:oklch(0.84 0.015 80);text-wrap:pretty;">The Greek form of the word, <em>pascha</em>, gives us the English word “paschal,” and in many languages the word for Easter comes from it, like <em>Pascua</em> in Spanish and <em>Pâques</em> in French.</p>
+  </figure>
+  <div style="display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(24px,4vw,48px);align-items:center;padding:clamp(24px,3.5vw,40px);border-radius:4px;background:oklch(0.21 0.03 265);">
+    <div style="width:clamp(90px,12vw,140px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 38% 35%, oklch(0.97 0.02 85), oklch(0.84 0.06 80) 70%);box-shadow:0 0 60px oklch(0.9 0.06 85 / 0.35);"></div>
+    <div style="max-width:680px;display:flex;flex-direction:column;gap:12px;">
+      <h3 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-size:30px;line-height:1.1;">A new calendar.</h3>
+      <p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.86 0.015 80);text-wrap:pretty;">The same chapter resets Israel’s year: “This month shall be for you the beginning of months” (12:2). The month was called Abib, meaning “ripe barley,” and was later known as Nisan. Because months followed the moon, the 14th fell at the full moon, so the night they left was bright enough to travel by. Israel’s year now began with the night God rescued them.</p>
+    </div>
+  </div>
+  <div style="max-width:720px;border:1px solid oklch(0.34 0.03 265);border-radius:4px;padding:26px 30px;display:flex;flex-direction:column;gap:12px;background:oklch(0.21 0.03 265);">
+    <div style="display:flex;align-items:center;gap:10px;"><span style="width:8px;height:8px;background:oklch(0.82 0.11 80);"></span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.82 0.11 80);">Connecting the Dots</span></div>
+    <p style="margin:0;font-size:19px;line-height:1.65;text-wrap:pretty;">Ask students what “Passover” means and most will say “God skipped their houses.” The “protect” reading gives them something better: a God who stays at the door all night.</p>
+  </div>
+</article>
+</sc-if>
+
+<sc-if value="{{ v4 }}" hint-placeholder-val="{{ false }}">
+<article id="ch4" style="display:flex;flex-direction:column;gap:28px;animation:rise .4s ease;">
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:12px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.82 0.11 80);">The Words and the Meal · Question 5</div>
+    <h2 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(40px,5.4vw,64px);line-height:1.02;max-width:900px;text-wrap:balance;">What Was on the Table?</h2>
+  </div>
+  <p style="margin:0;max-width:760px;font-family:'Instrument Serif',serif;font-size:clamp(26px,3vw,34px);line-height:1.25;text-wrap:pretty;">A roasted lamb or young goat, flat bread, and bitter herbs, eaten in a hurry by a family dressed to leave.</p>
+  <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.68 0.02 80);">Set the table</div>
+    <div style="font-size:13px;color:oklch(0.66 0.02 80);">Tap each part of the meal</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:10px;">
+    <sc-for list="{{ mealTabs }}" as="m" hint-placeholder-count="4">
+      <button onClick="{{ m.onClick }}" style="all:unset;box-sizing:border-box;cursor:pointer;padding:22px;border-radius:4px;display:flex;flex-direction:column;gap:6px;border:1px solid {{ m.border }};background:{{ m.bg }};color:{{ m.color }};transition:all .25s;">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;opacity:0.8;">{{ m.ref }}</span>
+        <span style="font-family:'Instrument Serif',serif;font-size:28px;line-height:1.05;">{{ m.label }}</span>
+      </button>
+    </sc-for>
+  </div>
+  <div style="padding:clamp(24px,3.5vw,40px);border-radius:4px;background:oklch(0.21 0.03 265);border:1px solid oklch(0.3 0.03 265);">
+    <sc-if value="{{ meal0 }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:28px;animation:rise .3s ease;">
+        <p style="margin:0;max-width:720px;font-size:18px;line-height:1.75;color:oklch(0.88 0.015 80);text-wrap:pretty;"><strong style="color:oklch(0.94 0.012 80);">The lamb.</strong> The Hebrew word <em>seh</em> can mean a lamb or a young goat. It had to be a year-old male with no defect, chosen on the 10th and kept until the 14th (12:3–6). Small households shared one with their neighbors (12:4). It was roasted whole over the fire, “its head with its legs and its inner parts,” not eaten raw or boiled (12:9). Anything left by morning was burned (12:10), and none of its bones could be broken (12:46).</p>
+        <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;max-width:720px;">
+          <div style="display:flex;flex-direction:column;gap:8px;"><span style="height:6px;border-radius:3px;background:oklch(0.82 0.11 80);"></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.82 0.11 80);">10th · chosen</span></div>
+          <div style="display:flex;flex-direction:column;gap:8px;"><span style="height:6px;border-radius:3px;background:oklch(0.45 0.05 80);"></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.62 0.02 80);">11th</span></div>
+          <div style="display:flex;flex-direction:column;gap:8px;"><span style="height:6px;border-radius:3px;background:oklch(0.45 0.05 80);"></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.62 0.02 80);">12th</span></div>
+          <div style="display:flex;flex-direction:column;gap:8px;"><span style="height:6px;border-radius:3px;background:oklch(0.45 0.05 80);"></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.62 0.02 80);">13th</span></div>
+          <div style="display:flex;flex-direction:column;gap:8px;"><span style="height:6px;border-radius:3px;background:oklch(0.6 0.18 28);"></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.75 0.14 28);">14th · Passover</span></div>
+        </div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ meal1 }}" hint-placeholder-val="{{ false }}">
+      <p style="margin:0;max-width:720px;font-size:18px;line-height:1.75;color:oklch(0.88 0.015 80);text-wrap:pretty;animation:rise .3s ease;"><strong style="color:oklch(0.94 0.012 80);">The bread.</strong> Matzah is bread made without yeast. When Pharaoh finally said go, Israel left before the dough could rise and carried it in kneading bowls wrapped in their cloaks (12:34, 39). Ancient leaven was a lump of old fermented dough saved from the last batch, a lot like sourdough starter. Clearing all of it out for seven days (12:15) meant a clean break and a fresh start. Many Christians read leaven as a picture of sin, but that comes from Paul, not Exodus. In 1 Corinthians 5:6–8, Paul uses it for a specific case of sexual immorality the church in Corinth was tolerating.</p>
+    </sc-if>
+    <sc-if value="{{ meal2 }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:28px;align-items:center;animation:rise .3s ease;">
+        <p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.88 0.015 80);text-wrap:pretty;"><strong style="color:oklch(0.94 0.012 80);">The bitter herbs.</strong> Exodus 1:14 says the Egyptians “made their lives bitter with hard service.” The word for “bitter herbs” in 12:8 comes from the same Hebrew root. Every bite tasted like the slavery they were about to leave.</p>
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:12px;align-items:center;text-align:center;">
+          <div style="padding:18px 12px;border-radius:4px;border:1px solid oklch(0.4 0.03 265);display:flex;flex-direction:column;gap:6px;"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.82 0.11 80);">1:14</span><span style="font-family:'Instrument Serif',serif;font-size:22px;">lives made bitter</span></div>
+          <span style="font-size:13px;color:oklch(0.68 0.02 80);">same root</span>
+          <div style="padding:18px 12px;border-radius:4px;border:1px solid oklch(0.4 0.03 265);display:flex;flex-direction:column;gap:6px;"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.82 0.11 80);">12:8</span><span style="font-family:'Instrument Serif',serif;font-size:22px;">bitter herbs</span></div>
+        </div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ meal3 }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:28px;animation:rise .3s ease;">
+        <p style="margin:0;max-width:720px;font-size:18px;line-height:1.75;color:oklch(0.88 0.015 80);text-wrap:pretty;"><strong style="color:oklch(0.94 0.012 80);">The posture.</strong> They ate “with your belt fastened, your sandals on your feet, and your staff in your hand” (12:11). The text doesn’t say they stood, but a staff in hand points that way. By Jesus’ day the posture had flipped. He and his disciples “reclined at table” (Matt 26:20), the way free people ate. Later Jewish tradition required even the poorest person to recline at Passover, and it treated the haste of that first night as belonging only to the Passover in Egypt.</p>
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:16px;align-items:center;max-width:720px;">
+          <div style="padding:20px;border-radius:4px;border:1px solid oklch(0.4 0.03 265);display:flex;flex-direction:column;gap:6px;"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.82 0.11 80);">Exod 12:11 · Egypt</span><span style="font-family:'Instrument Serif',serif;font-size:24px;">staff in hand</span></div>
+          <span style="color:oklch(0.82 0.11 80);font-size:22px;">→</span>
+          <div style="padding:20px;border-radius:4px;background:oklch(0.82 0.11 80);color:oklch(0.2 0.03 265);display:flex;flex-direction:column;gap:6px;"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;">Matt 26:20 · Jesus’ day</span><span style="font-family:'Instrument Serif',serif;font-size:24px;">“reclined at table”</span></div>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+</article>
+</sc-if>
+
+<sc-if value="{{ v5 }}" hint-placeholder-val="{{ false }}">
+<article id="ch5" style="display:flex;flex-direction:column;gap:28px;animation:rise .4s ease;">
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:12px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.82 0.11 80);">The Memory · Question 6</div>
+    <h2 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(40px,5.4vw,64px);line-height:1.02;max-width:900px;text-wrap:balance;">Israel Kept Forgetting</h2>
+  </div>
+  <p style="margin:0;max-width:760px;font-family:'Instrument Serif',serif;font-size:clamp(26px,3vw,34px);line-height:1.25;text-wrap:pretty;">For a festival God commanded “as a statute forever” (12:14), Israel kept Passover surprisingly rarely, and the Bible is honest about it.</p>
+  <figure style="margin:8px 0;padding:clamp(24px,3vw,40px);border:1px solid oklch(0.3 0.03 265);border-radius:4px;background:oklch(0.2 0.028 265);display:flex;flex-direction:column;gap:28px;">
+    <figcaption style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.68 0.02 80);">Passovers the Old Testament records</figcaption>
+    <div style="overflow-x:auto;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 2.2fr 1fr 1fr 1fr;min-width:760px;">
+        <div style="display:flex;flex-direction:column;gap:12px;"><div style="display:flex;align-items:center;"><span style="width:14px;height:14px;background:oklch(0.6 0.18 28);flex:none;"></span><span style="flex:1;height:2px;background:oklch(0.82 0.11 80);"></span></div><span style="font-size:14px;font-weight:700;">Egypt</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:oklch(0.82 0.11 80);">Exod 12</span></div>
+        <div style="display:flex;flex-direction:column;gap:12px;"><div style="display:flex;align-items:center;"><span style="width:12px;height:12px;border-radius:50%;background:oklch(0.82 0.11 80);flex:none;"></span><span style="flex:1;height:2px;background:oklch(0.82 0.11 80);"></span></div><span style="font-size:14px;font-weight:700;">Wilderness</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:oklch(0.82 0.11 80);">Num 9:1–5</span></div>
+        <div style="display:flex;flex-direction:column;gap:12px;"><div style="display:flex;align-items:center;"><span style="width:12px;height:12px;border-radius:50%;background:oklch(0.82 0.11 80);flex:none;"></span><span style="flex:1;height:2px;background:oklch(0.82 0.11 80);"></span></div><span style="font-size:14px;font-weight:700;">Joshua</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:oklch(0.82 0.11 80);">Josh 5:10</span></div>
+        <div style="display:flex;flex-direction:column;gap:12px;"><div style="display:flex;align-items:center;height:14px;"><span style="flex:1;height:0;border-top:2px dashed oklch(0.42 0.03 265);"></span></div><span style="font-family:'Instrument Serif',serif;font-style:italic;font-size:20px;color:oklch(0.7 0.02 80);text-align:center;">the record goes quiet for centuries</span></div>
+        <div style="display:flex;flex-direction:column;gap:12px;"><div style="display:flex;align-items:center;"><span style="width:12px;height:12px;border-radius:50%;background:oklch(0.82 0.11 80);flex:none;"></span><span style="flex:1;height:2px;background:oklch(0.82 0.11 80);"></span></div><span style="font-size:14px;font-weight:700;">Hezekiah</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:oklch(0.82 0.11 80);">2 Chr 30</span></div>
+        <div style="display:flex;flex-direction:column;gap:12px;"><div style="display:flex;align-items:center;"><span style="width:12px;height:12px;border-radius:50%;background:oklch(0.82 0.11 80);flex:none;"></span><span style="flex:1;height:2px;background:oklch(0.82 0.11 80);"></span></div><span style="font-size:14px;font-weight:700;">Josiah</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:oklch(0.82 0.11 80);">2 Kgs 23:21–23; 2 Chr 35</span></div>
+        <div style="display:flex;flex-direction:column;gap:12px;"><div style="display:flex;align-items:center;"><span style="width:12px;height:12px;border-radius:50%;background:oklch(0.82 0.11 80);flex:none;"></span></div><span style="font-size:14px;font-weight:700;">After exile</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:oklch(0.82 0.11 80);">Ezra 6:19–22</span></div>
+      </div>
+    </div>
+  </figure>
+  <div style="max-width:720px;display:flex;flex-direction:column;gap:22px;">
+    <p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.86 0.015 80);text-wrap:pretty;">Outside Exodus, the Old Testament records only a handful of Passovers. Israel kept one in the wilderness (Num 9:1–5) and one when they entered the land under Joshua (Josh 5:10). After that, the record goes quiet for centuries, until the reforms of King Hezekiah (2 Chr 30) and King Josiah (2 Kgs 23:21–23; 2 Chr 35), with one more after the return from exile (Ezra 6:19–22). When Josiah held his Passover, the writer adds that nothing like it had been kept “since the days of the judges” (2 Kgs 23:22). Hezekiah admits the people “had not kept it as often as prescribed” (2 Chr 30:5). Josiah’s Passover even came after his workers found a forgotten scroll of God’s law in the Temple (2 Kgs 22:8). Israel had lost track of the very instructions that told them to remember.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(24px,4vw,48px);align-items:start;padding:clamp(24px,3.5vw,40px);border-radius:4px;background:oklch(0.95 0.014 80);color:oklch(0.22 0.03 265);">
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.5 0.16 28);">Grace built into the rules</div>
+      <p style="margin:0;font-size:18px;line-height:1.75;text-wrap:pretty;">God saw that coming and built grace into the rules. Numbers 9:6–12 allowed a make-up Passover a month later for anyone who was ceremonially unclean or traveling, and Hezekiah used that exact provision (2 Chr 30:2). Even then, many people ate without being properly purified. Hezekiah prayed, “May the good LORD pardon everyone who sets his heart to seek God… even though not according to the sanctuary’s rules of cleanness.” The next line says, “And the LORD heard Hezekiah and healed the people” (2 Chr 30:18–20).</p>
+    </div>
+    <blockquote style="margin:0;padding-top:8px;font-family:'Instrument Serif',serif;font-size:clamp(30px,3.6vw,42px);line-height:1.15;text-wrap:balance;">“And the LORD heard Hezekiah and healed the people”<span style="display:block;margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.5 0.16 28);">2 Chr 30:20</span></blockquote>
+  </div>
+  <div style="max-width:720px;border:1px solid oklch(0.34 0.03 265);border-radius:4px;padding:26px 30px;display:flex;flex-direction:column;gap:12px;background:oklch(0.21 0.03 265);">
+    <div style="display:flex;align-items:center;gap:10px;"><span style="width:8px;height:8px;background:oklch(0.82 0.11 80);"></span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.82 0.11 80);">Connecting the Dots</span></div>
+    <p style="margin:0;font-size:19px;line-height:1.65;text-wrap:pretty;">Forgetting God is an old problem, and remembering takes effort. God expected his people to drift and built second chances into the very festival meant to keep them anchored. Students who feel like they’ve drifted need to hear that the door back is already open.</p>
+  </div>
+</article>
+</sc-if>
+
+<sc-if value="{{ v6 }}" hint-placeholder-val="{{ false }}">
+<article id="ch6" style="display:flex;flex-direction:column;gap:28px;animation:rise .4s ease;">
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:12px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.82 0.11 80);">The Lamb · Question 7</div>
+    <h2 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(40px,5.4vw,64px);line-height:1.02;max-width:900px;text-wrap:balance;">Did Jesus Eat the Passover or Become It?</h2>
+  </div>
+  <p style="margin:0;max-width:760px;font-family:'Instrument Serif',serif;font-size:clamp(26px,3vw,34px);line-height:1.25;text-wrap:pretty;">The Gospels show both.</p>
+  <div style="max-width:720px;"><p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.86 0.015 80);text-wrap:pretty;">Matthew, Mark, and Luke present the Last Supper as a Passover meal. John places Jesus’ death on the day the Passover lambs were being slaughtered. Christians explain the difference in more than one way, and every explanation lands in the same place.</p></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:12px;">
+    <div style="padding:clamp(24px,3vw,34px);border-radius:4px;border:1px solid oklch(0.34 0.03 265);display:flex;flex-direction:column;gap:14px;">
+      <div style="display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap;"><span style="font-family:'Instrument Serif',serif;font-size:30px;line-height:1;">Ate it</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:oklch(0.82 0.11 80);">Matthew · Mark · Luke</span></div>
+      <p style="margin:0;font-size:17px;line-height:1.7;color:oklch(0.86 0.015 80);text-wrap:pretty;">In Matthew, Mark, and Luke, the disciples prepare “to eat the Passover” (Mark 14:12), and Jesus says, “I have earnestly desired to eat this Passover with you before I suffer” (Luke 22:15).</p>
+    </div>
+    <div style="padding:clamp(24px,3vw,34px);border-radius:4px;background:oklch(0.42 0.14 28);display:flex;flex-direction:column;gap:14px;">
+      <div style="display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap;"><span style="font-family:'Instrument Serif',serif;font-size:30px;line-height:1;">Became it</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:oklch(0.92 0.04 80);">John</span></div>
+      <p style="margin:0;font-size:17px;line-height:1.7;color:oklch(0.96 0.01 80);text-wrap:pretty;">In John, the religious leaders won’t enter Pilate’s headquarters “so that they would not be defiled, but could eat the Passover” (John 18:28), and the crucifixion happens on “the day of Preparation of the Passover” (19:14). John then points out that Jesus’ bones weren’t broken, fulfilling Exodus 12:46 (John 19:36).</p>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:16px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.68 0.02 80);">There are three common ways to handle this.</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px;">
+      <div style="padding:24px;border-radius:4px;background:oklch(0.21 0.03 265);display:flex;flex-direction:column;gap:12px;"><span style="font-family:'Instrument Serif',serif;font-size:40px;line-height:1;color:oklch(0.82 0.11 80);">1</span><p style="margin:0;font-size:16px;line-height:1.6;text-wrap:pretty;">Some scholars think John arranged his timeline to make a theological point, showing Jesus as the true Passover lamb.</p></div>
+      <div style="padding:24px;border-radius:4px;background:oklch(0.21 0.03 265);display:flex;flex-direction:column;gap:12px;"><span style="font-family:'Instrument Serif',serif;font-size:40px;line-height:1;color:oklch(0.82 0.11 80);">2</span><p style="margin:0;font-size:16px;line-height:1.6;text-wrap:pretty;">Others say historians simply can’t settle which timeline is exact from the evidence we have.</p></div>
+      <div style="padding:24px;border-radius:4px;background:oklch(0.21 0.03 265);display:flex;flex-direction:column;gap:12px;"><span style="font-family:'Instrument Serif',serif;font-size:40px;line-height:1;color:oklch(0.82 0.11 80);">3</span><p style="margin:0;font-size:16px;line-height:1.6;text-wrap:pretty;">Many evangelical scholars argue the accounts fit together, since “Passover” could name the whole week-long festival and “Preparation” was the usual word for Friday.</p></div>
+    </div>
+    <p style="margin:0;max-width:720px;font-size:18px;line-height:1.75;color:oklch(0.86 0.015 80);text-wrap:pretty;">Whichever view a teacher holds, scholars broadly agree that Passover is the right backdrop for understanding the Last Supper.</p>
+  </div>
+  <div style="max-width:720px;background:oklch(0.82 0.11 80);color:oklch(0.2 0.03 265);border-radius:4px;padding:26px 30px;display:flex;flex-direction:column;gap:12px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;">It’s ok to say</div>
+    <p style="margin:0;font-family:'Instrument Serif',serif;font-size:24px;line-height:1.35;text-wrap:pretty;">“The Gospels tell it from different angles, and Christians have explained the timing a few ways. All four agree on the big thing: Jesus died at Passover, and the New Testament calls him our Passover lamb.”</p>
+  </div>
+  <div style="max-width:720px;display:flex;flex-direction:column;gap:14px;margin-top:16px;">
+    <h3 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-size:32px;line-height:1.1;">What Jesus said at the table.</h3>
+    <p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.86 0.015 80);text-wrap:pretty;">Jesus took Passover bread and said, “This is my body” (Luke 22:19). Over the cup he said, “this is my blood of the covenant” (Mark 14:24), echoing the words Moses spoke when God made his covenant with Israel at Sinai (Exod 24:8). In Luke, he calls it “the new covenant in my blood” (Luke 22:20), echoing God’s promise of a new covenant (Jer 31:31). The Supper ties Passover and Sinai to that promise in one meal. Afterward, they sang a hymn and went out to the Mount of Olives (Mark 14:26). Jewish tradition sang Psalms 113–118 at Passover, so that’s very likely what Jesus sang the night he was arrested, including “The stone that the builders rejected has become the cornerstone” (Ps 118:22).</p>
+  </div>
+  <figure style="margin:16px 0 0;padding:clamp(24px,3vw,40px);border:1px solid oklch(0.3 0.03 265);border-radius:4px;background:oklch(0.2 0.028 265);display:flex;flex-direction:column;gap:24px;">
+    <figcaption style="display:flex;flex-direction:column;gap:6px;"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.68 0.02 80);">The lamb through Scripture</span></figcaption>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:0;">
+      <div style="display:flex;flex-direction:column;gap:12px;padding:0 20px 20px 0;"><div style="display:flex;align-items:center;"><span style="width:12px;height:12px;border-radius:50%;background:oklch(0.82 0.11 80);flex:none;"></span><span style="flex:1;height:2px;background:oklch(0.45 0.05 80);"></span></div><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.82 0.11 80);">Genesis</span><p style="margin:0;font-size:15px;line-height:1.55;text-wrap:pretty;">Isaac asks, “Where is the lamb?” and Abraham answers, “God will provide for himself the lamb” (Gen 22:7–8).</p></div>
+      <div style="display:flex;flex-direction:column;gap:12px;padding:0 20px 20px 0;"><div style="display:flex;align-items:center;"><span style="width:12px;height:12px;background:oklch(0.6 0.18 28);flex:none;"></span><span style="flex:1;height:2px;background:oklch(0.45 0.05 80);"></span></div><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.82 0.11 80);">Exodus</span><p style="margin:0;font-size:15px;line-height:1.55;text-wrap:pretty;">In Egypt, every household has one.</p></div>
+      <div style="display:flex;flex-direction:column;gap:12px;padding:0 20px 20px 0;"><div style="display:flex;align-items:center;"><span style="width:12px;height:12px;border-radius:50%;background:oklch(0.82 0.11 80);flex:none;"></span><span style="flex:1;height:2px;background:oklch(0.45 0.05 80);"></span></div><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.82 0.11 80);">Isaiah · John</span><p style="margin:0;font-size:15px;line-height:1.55;text-wrap:pretty;">Isaiah describes God’s servant as “a lamb that is led to the slaughter” (Isa 53:7), and John the Baptist points to Jesus as “the Lamb of God, who takes away the sin of the world” (John 1:29).</p></div>
+      <div style="display:flex;flex-direction:column;gap:12px;padding:0 20px 20px 0;"><div style="display:flex;align-items:center;"><span style="width:16px;height:16px;border-radius:50%;background:oklch(0.82 0.11 80);box-shadow:0 0 0 5px oklch(0.82 0.11 80 / 0.2);flex:none;"></span></div><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.82 0.11 80);">Paul</span><p style="margin:0;font-size:15px;line-height:1.55;text-wrap:pretty;">Paul writes almost in passing, “Christ, our Passover lamb, has been sacrificed” (1 Cor 5:7), which suggests the idea was already familiar to the earliest Christians.</p></div>
+    </div>
+  </figure>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(24px,4vw,48px);padding:clamp(24px,3.5vw,40px);border-radius:4px;background:oklch(0.95 0.014 80);color:oklch(0.22 0.03 265);">
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <h3 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-size:32px;line-height:1.1;">A test for connections like these.</h3>
+      <p style="margin:0;font-size:17px;line-height:1.7;text-wrap:pretty;">The strongest connections between the Old Testament and Jesus are the ones the New Testament itself makes, like the unblemished lamb, the unbroken bones, and “Christ, our Passover lamb.” Popular material sometimes goes further, claiming the blood on the doorframe formed a cross or that later Seder customs secretly picture Jesus. Those are devotional readings added much later, not part of the original story.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;justify-content:center;">
+      <div style="padding:16px 18px;border-radius:4px;background:oklch(0.22 0.03 265);color:oklch(0.94 0.012 80);display:flex;justify-content:space-between;gap:12px;"><span>the unblemished lamb</span><span style="color:oklch(0.82 0.11 80);">✓</span></div>
+      <div style="padding:16px 18px;border-radius:4px;background:oklch(0.22 0.03 265);color:oklch(0.94 0.012 80);display:flex;justify-content:space-between;gap:12px;"><span>the unbroken bones</span><span style="color:oklch(0.82 0.11 80);">✓</span></div>
+      <div style="padding:16px 18px;border-radius:4px;background:oklch(0.22 0.03 265);color:oklch(0.94 0.012 80);display:flex;justify-content:space-between;gap:12px;"><span>“Christ, our Passover lamb”</span><span style="color:oklch(0.82 0.11 80);">✓</span></div>
+      <div style="padding:16px 18px;border-radius:4px;border:1px dashed oklch(0.6 0.03 265);display:flex;justify-content:space-between;gap:12px;color:oklch(0.4 0.03 265);"><span>the blood on the doorframe formed a cross</span><span>✕</span></div>
+      <div style="padding:16px 18px;border-radius:4px;border:1px dashed oklch(0.6 0.03 265);display:flex;justify-content:space-between;gap:12px;color:oklch(0.4 0.03 265);"><span>later Seder customs secretly picture Jesus</span><span>✕</span></div>
+    </div>
+  </div>
+  <div style="max-width:720px;border:1px solid oklch(0.34 0.03 265);border-radius:4px;padding:26px 30px;display:flex;flex-direction:column;gap:12px;background:oklch(0.21 0.03 265);">
+    <div style="display:flex;align-items:center;gap:10px;"><span style="width:8px;height:8px;background:oklch(0.82 0.11 80);"></span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.82 0.11 80);">Connecting the Dots</span></div>
+    <p style="margin:0;font-size:19px;line-height:1.65;text-wrap:pretty;">When Jesus wanted his followers to understand the cross, he handed them bread and a cup at a Passover table. He pointed them back to the night a lamb died so God’s people could go free.</p>
+  </div>
+</article>
+</sc-if>
+
+<sc-if value="{{ v7 }}" hint-placeholder-val="{{ false }}">
+<article id="ch7" style="display:flex;flex-direction:column;gap:28px;animation:rise .4s ease;">
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:12px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.82 0.11 80);">The Lamb · Question 8</div>
+    <h2 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(40px,5.4vw,64px);line-height:1.02;max-width:900px;text-wrap:balance;">From the Passover Table to the Lord’s Table</h2>
+  </div>
+  <p style="margin:0;max-width:760px;font-family:'Instrument Serif',serif;font-size:clamp(26px,3vw,34px);line-height:1.25;text-wrap:pretty;">Jesus started the Lord’s Supper at a Passover meal, and Communion carries some of Passover’s shape without repeating it.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:12px;">
+    <div style="padding:clamp(24px,3vw,34px);border-radius:4px;border:1px solid oklch(0.82 0.11 80);display:flex;flex-direction:column;gap:14px;">
+      <div style="display:flex;align-items:center;gap:10px;"><span style="font-size:20px;color:oklch(0.82 0.11 80);">=</span><span style="font-family:'Instrument Serif',serif;font-size:30px;line-height:1;">What carries over.</span></div>
+      <p style="margin:0;font-size:17px;line-height:1.7;color:oklch(0.86 0.015 80);text-wrap:pretty;">Both meals are about remembering. God called Passover “a memorial day” (Exod 12:14), and Jesus said, “Do this in remembrance of me” (Luke 22:19). In both, God’s people eat together as the people he rescued, and in both, the meal points forward. Jesus told his disciples he wouldn’t drink the cup again “until that day when I drink it new with you in my Father’s kingdom” (Matt 26:29), and later Jewish tradition looked for God’s final rescue to come on Passover night. Paul says that every time Christians take the Supper, “you proclaim the Lord’s death until he comes” (1 Cor 11:26).</p>
+    </div>
+    <div style="padding:clamp(24px,3vw,34px);border-radius:4px;border:1px solid oklch(0.34 0.03 265);display:flex;flex-direction:column;gap:14px;">
+      <div style="display:flex;align-items:center;gap:10px;"><span style="font-size:20px;color:oklch(0.75 0.14 28);">≠</span><span style="font-family:'Instrument Serif',serif;font-size:30px;line-height:1;">What’s different.</span></div>
+      <p style="margin:0;font-size:17px;line-height:1.7;color:oklch(0.86 0.015 80);text-wrap:pretty;">There’s no lamb at the Lord’s Table, because Jesus is the lamb. Churches take Communion many times a year, while Passover came once. And when Paul gives instructions for the Supper in 1 Corinthians 11, he doesn’t tie it to Passover. He uses Passover imagery separately, back in chapter 5.</p>
+    </div>
+  </div>
+  <figure style="margin:8px 0;padding:clamp(24px,3vw,40px);border:1px solid oklch(0.3 0.03 265);border-radius:4px;background:oklch(0.2 0.028 265);display:flex;flex-direction:column;gap:24px;">
+    <figcaption style="display:flex;flex-direction:column;gap:10px;">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.82 0.11 80);">Where Christians differ</span>
+      <span style="font-size:17px;line-height:1.6;color:oklch(0.86 0.015 80);">Christian traditions understand what happens at the Table in different ways.</span>
+    </figcaption>
+    <div style="height:6px;border-radius:3px;background:linear-gradient(90deg, oklch(0.45 0.05 80), oklch(0.82 0.11 80));"></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:20px;">
+      <div style="display:flex;flex-direction:column;gap:8px;"><span style="font-family:'Instrument Serif',serif;font-size:26px;line-height:1.05;">mainly a remembrance</span><p style="margin:0;font-size:15px;line-height:1.55;color:oklch(0.8 0.015 80);text-wrap:pretty;">Many Baptist and nondenominational churches see it mainly as a remembrance.</p></div>
+      <div style="display:flex;flex-direction:column;gap:8px;"><span style="font-family:'Instrument Serif',serif;font-size:26px;line-height:1.05;">spiritually present</span><p style="margin:0;font-size:15px;line-height:1.55;color:oklch(0.8 0.015 80);text-wrap:pretty;">Reformed churches teach that Christ is spiritually present as believers receive it.</p></div>
+      <div style="display:flex;flex-direction:column;gap:8px;"><span style="font-family:'Instrument Serif',serif;font-size:26px;line-height:1.05;">truly present</span><p style="margin:0;font-size:15px;line-height:1.55;color:oklch(0.8 0.015 80);text-wrap:pretty;">Lutheran, Catholic, and Orthodox churches hold that Christ is truly present in the bread and wine.</p></div>
+    </div>
+    <p style="margin:0;padding-top:20px;border-top:1px solid oklch(0.3 0.03 265);font-size:17px;line-height:1.65;color:oklch(0.9 0.015 80);text-wrap:pretty;">Families at our school come from several of these traditions, so it helps to speak about what they share: the Supper looks back to the cross and forward to Jesus’ return.</p>
+  </figure>
+  <div style="max-width:720px;background:oklch(0.82 0.11 80);color:oklch(0.2 0.03 265);border-radius:4px;padding:26px 30px;display:flex;flex-direction:column;gap:12px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;">It’s ok to say</div>
+    <p style="margin:0;font-family:'Instrument Serif',serif;font-size:24px;line-height:1.35;text-wrap:pretty;">“Jesus started Communion at a Passover meal. Passover remembered God bringing Israel out of Egypt, and Communion remembers Jesus’ death and looks forward to his return.”</p>
+  </div>
+  <div style="max-width:720px;display:flex;flex-direction:column;gap:14px;margin-top:16px;">
+    <h3 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-size:32px;line-height:1.1;">A word on “Christian Seders.”</h3>
+    <p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.86 0.015 80);text-wrap:pretty;">Some churches host Passover Seders that present the modern Seder as what Jesus did at the Last Supper. The Seder Jewish families celebrate today, with its set order and its four cups of wine, took shape after the Romans destroyed the Temple in AD 70. Much of it is recorded in the Mishnah, a collection of Jewish teaching from around AD 200. These events can be meaningful, but it’s best not to claim Jesus followed that script. Jewish neighbors still celebrate Passover today, and our language about it should be respectful.</p>
+  </div>
+  <div style="display:flex;align-items:center;gap:0;max-width:720px;overflow-x:auto;">
+    <div style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:8px;"><div style="display:flex;align-items:center;"><span style="width:12px;height:12px;border-radius:50%;background:oklch(0.82 0.11 80);flex:none;"></span><span style="flex:1;height:2px;background:oklch(0.45 0.05 80);"></span></div><span style="font-size:13px;font-weight:700;">Last Supper</span></div>
+    <div style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:8px;"><div style="display:flex;align-items:center;"><span style="width:12px;height:12px;border-radius:50%;background:oklch(0.6 0.18 28);flex:none;"></span><span style="flex:1;height:2px;background:oklch(0.45 0.05 80);"></span></div><span style="font-size:13px;font-weight:700;">AD 70 · Temple destroyed</span></div>
+    <div style="flex:1;min-width:150px;display:flex;flex-direction:column;gap:8px;"><div style="display:flex;align-items:center;"><span style="width:12px;height:12px;border-radius:50%;background:oklch(0.82 0.11 80);flex:none;"></span></div><span style="font-size:13px;font-weight:700;">c. AD 200 · Mishnah</span></div>
+  </div>
+  <div style="max-width:720px;border:1px solid oklch(0.34 0.03 265);border-radius:4px;padding:26px 30px;display:flex;flex-direction:column;gap:12px;background:oklch(0.21 0.03 265);">
+    <div style="display:flex;align-items:center;gap:10px;"><span style="width:8px;height:8px;background:oklch(0.82 0.11 80);"></span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.82 0.11 80);">Connecting the Dots</span></div>
+    <p style="margin:0;font-size:19px;line-height:1.65;text-wrap:pretty;">Communion is remembering together. Students who take it at their home church are doing what Israel did at Passover: telling the story of a rescue they didn’t earn, at a table God set.</p>
+  </div>
+</article>
+</sc-if>
+
+<sc-if value="{{ v8 }}" hint-placeholder-val="{{ false }}">
+<article id="ch8" style="display:flex;flex-direction:column;gap:0;animation:rise .4s ease;border-radius:4px;overflow:hidden;background:oklch(0.3 0.1 28);">
+  <div style="padding:clamp(32px,5vw,64px);display:flex;flex-direction:column;gap:28px;">
+    <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:12px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.9 0.06 60);">A Hard History · Question 9</div>
+      <h2 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(40px,5.4vw,64px);line-height:1.02;max-width:900px;text-wrap:balance;">When a Night of Watching Became a Night of Fear</h2>
+    </div>
+    <p style="margin:0;max-width:760px;font-family:'Instrument Serif',serif;font-size:clamp(26px,3vw,34px);line-height:1.25;text-wrap:pretty;">For centuries, Christians made Passover night dangerous for Jewish communities, and every Christian teacher should know it.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px;">
+      <div style="padding:28px;border-radius:4px;background:oklch(0.95 0.014 80);color:oklch(0.22 0.03 265);display:flex;flex-direction:column;gap:12px;"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.5 0.16 28);">Exodus 12:42</span><span style="font-family:'Instrument Serif',serif;font-size:clamp(26px,3vw,34px);line-height:1.15;">“a night of watching by the LORD”</span></div>
+      <div style="padding:28px;border-radius:4px;border:1px solid oklch(0.55 0.1 28);display:flex;flex-direction:column;gap:12px;"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:oklch(0.9 0.06 60);">Christian Europe, Middle Ages</span><span style="font-family:'Instrument Serif',serif;font-size:clamp(26px,3vw,34px);line-height:1.15;">a night when Jewish families kept watch against their neighbors</span></div>
+    </div>
+    <div style="max-width:720px;display:flex;flex-direction:column;gap:22px;">
+      <p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.93 0.015 80);text-wrap:pretty;">Exodus calls Passover “a night of watching by the LORD” (12:42), a night God guarded and Israel would keep every year after. A Jewish commentator on Exodus notes the tragic twist that followed. Across Christian Europe in the Middle Ages, and in some places into the twentieth century, Passover became a night when Jewish families kept watch against their neighbors. The reason was the “blood libel,” a lie that Jews used Christian blood in their Passover rituals. Crowds, often stirred up by clergy, attacked Jewish communities because of it.</p>
+      <p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.93 0.015 80);text-wrap:pretty;">The accusation was false from the start. The Torah forbids eating any blood at all (Lev 17:10–14), and the Passover it describes remembers God protecting the vulnerable, not harming them. Jesus himself kept Passover, and his first followers were Jewish.</p>
+    </div>
+    <div style="max-width:720px;padding:26px 30px;border-radius:4px;background:oklch(0.22 0.06 28);display:flex;flex-direction:column;gap:12px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.9 0.06 60);">Why it matters</div>
+      <p style="margin:0;font-size:19px;line-height:1.65;text-wrap:pretty;">Here we see why the way we talk about other people’s faith matters. When Passover comes up, speak about Jewish neighbors and their celebration with respect, and steer away from framing Jewish practice as empty or legalistic.</p>
+    </div>
+  </div>
+</article>
+</sc-if>
+
+<sc-if value="{{ v9 }}" hint-placeholder-val="{{ false }}">
+<article id="ch9" style="display:flex;flex-direction:column;gap:28px;animation:rise .4s ease;">
+  <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:12px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.82 0.11 80);">Box</div>
+    <h2 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(40px,5.4vw,64px);line-height:1.02;max-width:900px;text-wrap:balance;">Did This Really Happen?</h2>
+  </div>
+  <div style="max-width:720px;display:flex;flex-direction:column;gap:22px;">
+    <p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.86 0.015 80);text-wrap:pretty;">There’s no Egyptian record of the exodus, but that’s less surprising than it sounds. Egyptian inscriptions tended to celebrate victories, not record disasters. The earliest mention of Israel outside the Bible is an Egyptian victory monument from Pharaoh Merneptah in the late 1200s BC, which already names Israel as a people living in Canaan.</p>
+    <p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.86 0.015 80);text-wrap:pretty;">Two questions stay open among Bible-believing scholars.</p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:12px;">
+    <figure style="margin:0;padding:clamp(24px,3vw,36px);border:1px solid oklch(0.3 0.03 265);border-radius:4px;background:oklch(0.2 0.028 265);display:flex;flex-direction:column;gap:22px;">
+      <figcaption style="display:flex;align-items:baseline;gap:12px;"><span style="font-family:'Instrument Serif',serif;font-size:40px;line-height:1;color:oklch(0.82 0.11 80);">1</span><span style="font-family:'Instrument Serif',serif;font-size:30px;line-height:1;">The date</span></figcaption>
+      <div style="position:relative;height:110px;margin:8px 4px 0;">
+        <div style="position:absolute;left:0;right:0;top:54px;height:2px;background:oklch(0.4 0.03 265);"></div>
+        <div style="position:absolute;left:0;top:64px;font-family:'JetBrains Mono',monospace;font-size:10px;color:oklch(0.6 0.02 80);">1500 BC</div>
+        <div style="position:absolute;left:28.5%;top:64px;font-family:'JetBrains Mono',monospace;font-size:10px;color:oklch(0.6 0.02 80);transform:translateX(-50%);">1400</div>
+        <div style="position:absolute;left:57%;top:64px;font-family:'JetBrains Mono',monospace;font-size:10px;color:oklch(0.6 0.02 80);transform:translateX(-50%);">1300</div>
+        <div style="position:absolute;left:85.7%;top:64px;font-family:'JetBrains Mono',monospace;font-size:10px;color:oklch(0.6 0.02 80);transform:translateX(-50%);">1200</div>
+        <div style="position:absolute;left:14.3%;top:44px;width:22px;height:22px;border-radius:50%;background:oklch(0.82 0.11 80);transform:translateX(-50%);"></div>
+        <div style="position:absolute;left:14.3%;top:0;transform:translateX(-30%);font-size:12px;font-weight:700;white-space:nowrap;">mid-1400s · 1 Kgs 6:1</div>
+        <div style="position:absolute;left:57%;width:28.7%;top:46px;height:18px;border-radius:9px;background:oklch(0.82 0.11 80 / 0.35);border:1px solid oklch(0.82 0.11 80);box-sizing:border-box;"></div>
+        <div style="position:absolute;left:57%;top:20px;font-size:12px;font-weight:700;white-space:nowrap;">1200s · Ramesses the Great</div>
+        <div style="position:absolute;left:94%;top:42px;width:3px;height:26px;background:oklch(0.6 0.18 28);"></div>
+        <div style="position:absolute;right:0;top:84px;font-size:11px;color:oklch(0.75 0.14 28);white-space:nowrap;">Merneptah · late 1200s</div>
+      </div>
+      <p style="margin:0;font-size:16px;line-height:1.65;color:oklch(0.86 0.015 80);text-wrap:pretty;">The first is the date. First Kings 6:1 points to the mid-1400s BC, while much of the outside evidence fits the 1200s, during the reign of Ramesses the Great.</p>
+    </figure>
+    <figure style="margin:0;padding:clamp(24px,3vw,36px);border:1px solid oklch(0.3 0.03 265);border-radius:4px;background:oklch(0.2 0.028 265);display:flex;flex-direction:column;gap:22px;">
+      <figcaption style="display:flex;align-items:baseline;gap:12px;"><span style="font-family:'Instrument Serif',serif;font-size:40px;line-height:1;color:oklch(0.82 0.11 80);">2</span><span style="font-family:'Instrument Serif',serif;font-size:30px;line-height:1;">The size</span></figcaption>
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;">
+        <div style="padding:18px;border-radius:4px;background:oklch(0.82 0.11 80);color:oklch(0.2 0.03 265);display:flex;flex-direction:column;gap:6px;"><span style="font-family:'Instrument Serif',serif;font-size:clamp(30px,3.4vw,40px);line-height:1;">600,000</span><span style="font-size:13px;">men · two million people or more</span></div>
+        <div style="padding:18px;border-radius:4px;border:1px solid oklch(0.82 0.11 80);display:flex;flex-direction:column;gap:6px;"><span style="font-family:'Instrument Serif',serif;font-size:clamp(30px,3.4vw,40px);line-height:1;font-style:italic;">elef</span><span style="font-size:13px;color:oklch(0.8 0.015 80);">a clan or a military unit · much smaller</span></div>
+      </div>
+      <p style="margin:0;font-size:16px;line-height:1.65;color:oklch(0.86 0.015 80);text-wrap:pretty;">The second is the size. Exodus 12:37 counts about 600,000 men, which would mean two million people or more. The Hebrew word for “thousand” (<em>elef</em>) can also mean a clan or a military unit, which would make the group much smaller, and both readings have faithful defenders.</p>
+    </figure>
+  </div>
+  <div style="max-width:720px;"><p style="margin:0;font-size:18px;line-height:1.75;color:oklch(0.86 0.015 80);text-wrap:pretty;">Some details point toward a real memory. A nation inventing its own origin story would rarely make its ancestors slaves. And several names in Moses’ own tribe, like Moses and Phinehas, appear to be Egyptian, which fits a people who lived in Egypt for generations.</p></div>
+  <div style="max-width:720px;background:oklch(0.82 0.11 80);color:oklch(0.2 0.03 265);border-radius:4px;padding:26px 30px;display:flex;flex-direction:column;gap:12px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;font-weight:500;">It’s ok to say</div>
+    <p style="margin:0;font-family:'Instrument Serif',serif;font-size:24px;line-height:1.35;text-wrap:pretty;">“We don’t have an Egyptian record of it, but the evidence we do have fits the story, and Israel had no reason to invent being slaves.”</p>
+  </div>
+</article>
+</sc-if>
+
+<sc-if value="{{ v10 }}" hint-placeholder-val="{{ false }}">
+<article id="ch10" style="animation:rise .4s ease;display:flex;justify-content:center;padding:clamp(24px,5vw,64px) 0;">
+  <div style="width:100%;max-width:860px;border-top:22px solid oklch(0.55 0.18 28);border-left:14px solid oklch(0.55 0.18 28);border-right:14px solid oklch(0.55 0.18 28);background:linear-gradient(180deg, oklch(0.8 0.1 75 / 0.14), oklch(0.17 0.025 265 / 0) 92%);padding:clamp(36px,6vw,72px) clamp(24px,6vw,72px) 64px;box-sizing:border-box;box-shadow:0 -24px 90px oklch(0.6 0.18 28 / 0.2);display:flex;flex-direction:column;gap:24px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:oklch(0.82 0.11 80);">The Takeaway</div>
+    <p style="margin:0;font-family:'Instrument Serif',serif;font-size:clamp(28px,3.6vw,44px);line-height:1.2;text-wrap:pretty;">That night, every house in Egypt had a death in it. <span style="color:oklch(0.87 0.1 75);">The only question was whether it was the lamb.</span></p>
+    <p style="margin:0;font-size:19px;line-height:1.7;color:oklch(0.88 0.015 80);text-wrap:pretty;">God kept his promise to Abraham to the very day, and centuries later Jesus sat down at a Passover table and used its bread and cup to explain his own death.</p>
+  </div>
+</article>
+</sc-if>
+
+<sc-if value="{{ pager }}" hint-placeholder-val="{{ true }}">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px;margin-top:-56px;">
+  <sc-if value="{{ hasPrev }}" hint-placeholder-val="{{ false }}">
+    <button onClick="{{ goPrev }}" style="all:unset;box-sizing:border-box;cursor:pointer;padding:22px 24px;border-radius:4px;border:1px solid oklch(0.34 0.03 265);display:flex;flex-direction:column;gap:6px;" style-hover="background:oklch(0.22 0.03 265)">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:oklch(0.68 0.02 80);">← Previous</span>
+      <span style="font-family:'Instrument Serif',serif;font-size:22px;line-height:1.2;">{{ prevTitle }}</span>
+    </button>
+  </sc-if>
+  <sc-if value="{{ hasNext }}" hint-placeholder-val="{{ true }}">
+    <button onClick="{{ goNext }}" style="all:unset;box-sizing:border-box;cursor:pointer;padding:22px 24px;border-radius:4px;background:oklch(0.82 0.11 80);color:oklch(0.17 0.025 265);display:flex;flex-direction:column;gap:6px;text-align:right;grid-column:-2/-1;" style-hover="background:oklch(0.88 0.09 80)">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;">Next →</span>
+      <span style="font-family:'Instrument Serif',serif;font-size:22px;line-height:1.2;">{{ nextTitle }}</span>
+    </button>
+  </sc-if>
+</div>
+</sc-if>
+
+</main>
+
+<footer style="max-width:1120px;margin:0 auto;padding:24px 24px 96px;">
+  <div style="border-top:1px solid oklch(0.3 0.03 265);">
+    <button onClick="{{ toggleSources }}" style="all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:flex;justify-content:space-between;align-items:center;padding:22px 0;font-size:15px;font-weight:600;color:oklch(0.82 0.02 80);">
+      <span>Sources Referenced Above</span><span style="color:oklch(0.82 0.11 80);font-size:18px;">{{ srcIcon }}</span>
+    </button>
+    <sc-if value="{{ srcOpen }}" hint-placeholder-val="{{ false }}">
+      <ul style="margin:0 0 28px;padding-left:18px;display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.55;color:oklch(0.78 0.02 80);">
+        <li>J. A. Motyer, <em>The Message of Exodus: The Days of Our Pilgrimage</em>, The Bible Speaks Today (Downers Grove, IL: IVP).</li>
+        <li>Nahum M. Sarna, <em>Exodus</em>, The JPS Torah Commentary (Philadelphia: Jewish Publication Society, 1991).</li>
+        <li>John H. Walton, Victor H. Matthews, and Mark W. Chavalas, <em>The IVP Bible Background Commentary: Old Testament</em> (Downers Grove, IL: IVP, 2000).</li>
+        <li>R. Alan Cole, <em>Exodus: An Introduction and Commentary</em>, Tyndale Old Testament Commentaries (Downers Grove, IL: IVP).</li>
+        <li>Philip Graham Ryken, <em>Exodus: Saved for God’s Glory</em>, Preaching the Word (Wheaton, IL: Crossway, 2005).</li>
+        <li>D. A. Carson et al., eds., <em>New Bible Commentary: 21st Century Edition</em>, 4th ed. (Downers Grove, IL: IVP, 1994).</li>
+        <li>Tony Evans, <em>The Tony Evans Bible Commentary</em> (Nashville: Holman, 2019).</li>
+        <li>Baruch M. Bokser, “Passover,” in <em>The Anchor Yale Bible Dictionary</em> (New York: Doubleday, 1992).</li>
+        <li>Douglas Mangum, “Passover,” in <em>The Lexham Bible Dictionary</em>, ed. John D. Barry et al. (Bellingham, WA: Lexham Press, 2016).</li>
+        <li>BibleProject, <a href="https://bibleproject.com/videos/what-is-passover/" target="_blank">“What Is Passover?”</a> (video) and <em>The Exodus Way</em> podcast, Q+R episode 14.</li>
+        <li>Logos research summaries drawing on Peter J. Gentry and Stephen J. Wellum, <em>Kingdom through Covenant</em>; Joachim Jeremias, “πάσχα,” <em>Theological Dictionary of the New Testament</em>; Stephen B. Clark, <em>The Old Testament in the Light of the New</em>; Timothy J. Geddert, <em>Mark</em>, Believers Church Bible Commentary; Spencer A. Jones, “Passover,” <em>Lexham Theological Wordbook</em>.</li>
+      </ul>
+    </sc-if>
+  </div>
+  <div style="border-top:1px solid oklch(0.3 0.03 265);border-bottom:1px solid oklch(0.3 0.03 265);">
+    <button onClick="{{ toggleNotes }}" style="all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:flex;justify-content:space-between;align-items:center;padding:22px 0;font-size:15px;font-weight:600;color:oklch(0.82 0.02 80);">
+      <span>Document Notes</span><span style="color:oklch(0.82 0.11 80);font-size:18px;">{{ notesIcon }}</span>
+    </button>
+    <sc-if value="{{ notesOpen }}" hint-placeholder-val="{{ false }}">
+      <ul style="margin:0 0 28px;padding-left:18px;display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.55;color:oklch(0.78 0.02 80);">
+        <li>This document leans most on Motyer (evangelical) and Sarna (Jewish), who often disagree. The pairing keeps contested readings balanced.</li>
+        <li>The Logos research summaries are secondary sources. I could not read those books directly.</li>
+        <li>The Anchor Yale and Lexham entries reflect critical scholarship on the festival’s origins. They’re used here for the history of Passover practice, not to set the interpretation.</li>
+        <li>The third timing view in section 7 (“Passover” as the whole festival week) is a common evangelical harmonization, but none of this week’s sources lays it out. Check it against a Gospel of John commentary before relying on it.</li>
+        <li>The cup words’ echoes of Exodus 24:8 and Jeremiah 31:31 come from comparing the texts directly, not from a cited commentary.</li>
+        <li>The later Jewish traditions about reclining and limiting the haste to the first Passover come from the Mishnah (Pesachim 10:1 and 9:5). Verify against a published translation before quoting.</li>
+        <li>The claims that Egyptian inscriptions rarely record defeats and that Phinehas is an Egyptian name are general background (the second via Tony Evans). Verify before using with students or parents.</li>
+        <li>Commentaries were read from Logos exports, so page numbers are omitted.</li>
+      </ul>
+    </sc-if>
+  </div>
+  <div style="padding-top:28px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px;color:oklch(0.62 0.02 80);">
+    <span>Going Deeper · The Passover (Exodus 11–12)</span>
+    <a href="Passover Teacher Notes v2.dc.html">← Teacher Notes</a>
+  </div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;expandAll&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Display&quot;}}">class Component extends DCLogic {
+  state = { ch: 0, all: false, reading: 0, meal: 0, src: false, notes: false };
+  CH = [
+    ['1', 'The Night', 'Why Did God Strike Egypt’s Firstborn?'],
+    ['2', 'The Night', 'How Could God Harden Pharaoh’s Heart and Still Hold Him Responsible?'],
+    ['3', 'The Night', 'What Did the Blood Actually Do?'],
+    ['4', 'The Words and the Meal', 'What Does “Passover” Mean?'],
+    ['5', 'The Words and the Meal', 'What Was on the Table?'],
+    ['6', 'The Memory', 'Israel Kept Forgetting'],
+    ['7', 'The Lamb', 'Did Jesus Eat the Passover or Become It?'],
+    ['8', 'The Lamb', 'From the Passover Table to the Lord’s Table'],
+    ['9', 'A Hard History', 'When a Night of Watching Became a Night of Fear'],
+    ['Box', 'A Hard History', 'Did This Really Happen?'],
+    ['→', 'The Takeaway', 'The Takeaway']
+  ];
+  MEAL = [['The lamb', '12:3–10, 46'], ['The bread', '12:15, 34, 39'], ['The bitter herbs', '12:8'], ['The posture', '12:11']];
+  go(i) {
+    const all = this.state.all || !!this.props.expandAll;
+    if (!all) this.setState({ ch: i });
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      const el = document.getElementById(all ? 'ch' + i : 'reader');
+      if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 64, behavior: 'smooth' });
+    }));
+  }
+  renderVals() {
+    const s = this.state, all = s.all || !!this.props.expandAll, N = this.CH.length;
+    const gold = 'oklch(0.82 0.11 80)', ink = 'oklch(0.17 0.025 265)';
+    const set = (o) => this.setState(o);
+    const vis = {};
+    this.CH.forEach((_, i) => { vis['v' + i] = all || s.ch === i; });
+    const parts = [];
+    this.CH.forEach(([n, part, t], i) => {
+      let p = parts.find(x => x.name === part);
+      if (!p) { p = { name: part, items: [], accent: part === 'A Hard History' ? 'oklch(0.6 0.18 28)' : part === 'The Takeaway' ? 'oklch(0.94 0.012 80)' : gold }; parts.push(p); }
+      p.items.push({ n, t, onClick: () => this.go(i) });
+    });
+    const tab = (on) => ({ bg: on ? gold : 'transparent', color: on ? ink : 'oklch(0.8 0.02 80)' });
+    const r0 = tab(s.reading === 0), r1 = tab(s.reading === 1);
+    return {
+      ...vis,
+      navChips: this.CH.map(([n, part, t], i) => {
+        const on = !all && s.ch === i;
+        return {
+          n, title: part + ' · ' + t, ml: i > 0 && this.CH[i - 1][1] !== part ? '10px' : '0',
+          border: on ? gold : 'oklch(0.34 0.03 265)', bg: on ? gold : 'transparent', color: on ? ink : 'oklch(0.82 0.02 80)',
+          onClick: () => this.go(i)
+        };
+      }),
+      map: parts,
+      allLabel: all ? 'One at a time' : 'Show all',
+      toggleAll: () => set({ all: !s.all }),
+      printPage: () => { set({ all: true, src: true, notes: true }); setTimeout(() => window.print(), 400); },
+      pager: !all,
+      hasPrev: s.ch > 0, hasNext: s.ch < N - 1,
+      prevTitle: s.ch > 0 ? this.CH[s.ch - 1][2] : '',
+      nextTitle: s.ch < N - 1 ? this.CH[s.ch + 1][2] : '',
+      goPrev: () => this.go(s.ch - 1), goNext: () => this.go(s.ch + 1),
+      reading0: s.reading === 0, reading1: s.reading === 1,
+      setReading0: () => set({ reading: 0 }), setReading1: () => set({ reading: 1 }),
+      r0bg: r0.bg, r0color: r0.color, r1bg: r1.bg, r1color: r1.color,
+      mealTabs: this.MEAL.map(([label, ref], i) => {
+        const on = s.meal === i;
+        return { label, ref, border: on ? gold : 'oklch(0.34 0.03 265)', bg: on ? gold : 'oklch(0.2 0.028 265)', color: on ? ink : 'oklch(0.92 0.012 80)', onClick: () => set({ meal: i }) };
+      }),
+      meal0: s.meal === 0, meal1: s.meal === 1, meal2: s.meal === 2, meal3: s.meal === 3,
+      srcOpen: s.src, notesOpen: s.notes,
+      srcIcon: s.src ? '−' : '+', notesIcon: s.notes ? '−' : '+',
+      toggleSources: () => set({ src: !s.src }), toggleNotes: () => set({ notes: !s.notes })
+    };
+  }
+}</script>
+</body>
+</html>
